@@ -1,10 +1,13 @@
 package com.anika.mobilefinancialservice.enums;
 
-/**
- * @author atiQue
- * @since 31'Jul 2022 at 9:27 PM
- */
+public enum UserType {
+    SYSTEM(01),
+    AGENT(02),
+    CUSTOMER(03);
 
-public class UserType {
+    private int value;
 
+    UserType(int value) {
+        this.value = value;
+    }
 }
