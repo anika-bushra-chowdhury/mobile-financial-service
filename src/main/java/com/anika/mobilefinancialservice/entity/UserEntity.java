@@ -1,8 +1,9 @@
 package com.anika.mobilefinancialservice.entity;
 
+import com.anika.mobilefinancialservice.enums.ProfileType;
+import com.anika.mobilefinancialservice.enums.Status;
 import com.anika.mobilefinancialservice.enums.UserType;
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,7 +20,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "WALLET_USER")
-public class UserEntity extends BaseDomain{
+public class UserEntity extends BaseDomain {
 
     @Id
     @GeneratedValue
@@ -61,13 +62,13 @@ public class UserEntity extends BaseDomain{
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private Integer status;
+    private Status status;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PROFILE")
-    private Integer profile;
+    private ProfileType profile;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "USER_TYPE")
     private UserType userType;
 }

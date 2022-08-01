@@ -1,13 +1,22 @@
 package com.anika.mobilefinancialservice.dto;
 
+import com.anika.mobilefinancialservice.enums.ProfileType;
+import com.anika.mobilefinancialservice.enums.Status;
 import com.anika.mobilefinancialservice.enums.UserType;
 import com.sun.istack.NotNull;
+import lombok.*;
+import org.springframework.context.annotation.Profile;
 
 /**
  * @author atiQue
  * @since 31'Jul 2022 at 9:26 PM
  */
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @NotNull
@@ -39,4 +48,9 @@ public class User {
 
     @NotNull
     private UserType userType;
+
+    private Status status;
+
+    private ProfileType profileType;
+
 }

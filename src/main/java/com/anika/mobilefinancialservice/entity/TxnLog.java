@@ -39,7 +39,7 @@ public class TxnLog extends BaseDomain {
     @Column(name = "TXN_TYPE")
     private TxnType txnType;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "USER_TYPE")
     private UserType userType;
 

@@ -1,8 +1,8 @@
 package com.anika.mobilefinancialservice.enums;
 
 public enum FeeType {
-    FIXED("F"),
-    RATE("R");
+    FIXED("FIXED"),
+    RATE("RATE");
 
     private String value;
 

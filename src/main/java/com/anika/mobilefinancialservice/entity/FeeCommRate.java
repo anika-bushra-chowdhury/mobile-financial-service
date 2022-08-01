@@ -1,9 +1,6 @@
 package com.anika.mobilefinancialservice.entity;
 
-import com.anika.mobilefinancialservice.enums.FeeType;
-import com.anika.mobilefinancialservice.enums.SenderOrReceiver;
-import com.anika.mobilefinancialservice.enums.TxnCategory;
-import com.anika.mobilefinancialservice.enums.TxnType;
+import com.anika.mobilefinancialservice.enums.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +30,10 @@ public class FeeCommRate extends BaseDomain {
     private TxnType txnType;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "USER_TYPE")
+    private UserType userType;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "SENDER_OR_RECEIVER")
     private SenderOrReceiver senderOrReceiver;
 
@@ -43,6 +44,9 @@ public class FeeCommRate extends BaseDomain {
     @Enumerated(EnumType.STRING)
     @Column(name = "FEE_TYPE")
     private FeeType feeType;
+
+    @Column(name = "FEE_NAME")
+    private String feeName;
 
     @Column(name = "RATE")
     private BigDecimal feeRate;
