@@ -2,6 +2,7 @@ package com.anika.mobilefinancialservice.entity;
 
 import com.anika.mobilefinancialservice.enums.UserType;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -58,9 +59,11 @@ public class UserEntity extends BaseDomain{
     @Column(name = "PIN")
     private String pin;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private Integer status;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "PROFILE")
     private Integer profile;
 

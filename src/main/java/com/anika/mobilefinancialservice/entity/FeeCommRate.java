@@ -1,5 +1,6 @@
 package com.anika.mobilefinancialservice.entity;
 
+import com.anika.mobilefinancialservice.enums.FeeType;
 import com.anika.mobilefinancialservice.enums.SenderOrReceiver;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
 import com.anika.mobilefinancialservice.enums.TxnType;
@@ -38,6 +39,10 @@ public class FeeCommRate extends BaseDomain {
     @Enumerated(EnumType.STRING)
     @Column(name = "TXN_CATEGORY")
     private TxnCategory txnCategory;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "FEE_TYPE")
+    private FeeType feeType;
 
     @Column(name = "RATE")
     private BigDecimal feeRate;
