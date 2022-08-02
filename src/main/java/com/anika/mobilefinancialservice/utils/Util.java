@@ -1,4 +1,4 @@
-package com.anika.mobilefinancialservice;
+package com.anika.mobilefinancialservice.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -9,8 +9,8 @@ import java.util.Date;
 
 @Slf4j
 public class Util {
-    public static Base64 base64 = new Base64();
 
+    public static Base64 base64 = new Base64();
 
     public static String convertDateToString(Date date, String pattern) {
         if (date == null) {
@@ -24,7 +24,7 @@ public class Util {
         Date date = null;
         try {
             date = new SimpleDateFormat(pattern).parse(dateString);
-            log.info("Date is:", date);
+            log.debug("Date is: {}", date);
         } catch (Exception e) {
             log.error("Error while parsing Date :", e);
         }
@@ -40,12 +40,10 @@ public class Util {
     }
 
     public static String encode(String data) {
-        String encodedString = new String(base64.encode(data.getBytes()));
-        return encodedString;
+        return new String(base64.encode(data.getBytes()));
     }
 
     public static String decode(String data) {
-        String decodedString = new String(base64.decode(data.getBytes()));
-        return decodedString;
+        return new String(base64.decode(data.getBytes()));
     }
 }

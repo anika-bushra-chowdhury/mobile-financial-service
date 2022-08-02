@@ -1,6 +1,6 @@
 package com.anika.mobilefinancialservice.service;
 
-import com.anika.mobilefinancialservice.Util;
+import com.anika.mobilefinancialservice.utils.Util;
 import com.anika.mobilefinancialservice.dao.LastTxnDao;
 import com.anika.mobilefinancialservice.dao.UserDao;
 import com.anika.mobilefinancialservice.dto.User;
@@ -29,10 +29,10 @@ public class UserServiceImpl implements UserService {
     public User userRegistration(User registrationRequest) {
 
         UserEntity userEntity = prepareUserEntity(registrationRequest);
-        userEntity = userDao.createUserEntity(userEntity);
+        userEntity = userDao.save(userEntity);
 
-        LastTxnEntity lastTxnEntity = prepareLastTxnEntity(registrationRequest);
-        lastTxnDao.createLastTxnEntity(lastTxnEntity);
+//        LastTxnEntity lastTxnEntity = prepareLastTxnEntity(registrationRequest);
+//        lastTxnDao.createLastTxnEntity(lastTxnEntity);
 
         return prepareRegistrationResponse(userEntity);
     }
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
                 .userName(request.getUserName())
                 .number(Util.encode(request.getPhoneNumber()))
                 .nid(request.getNid())
-                .dateOfBirth(Util.convertStringToDate(request.getDob(), "dd-mm-yyyy"))
+                .dateOfBirth(request.getDob())
                 .fatherName(request.getFatherName())
                 .motherName(request.getMotherName())
                 .presentAddress(request.getPresAddress())
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
                 .userName(userEntity.getUserName())
                 .phoneNumber(Util.decode(userEntity.getNumber()))
                 .nid(userEntity.getNid())
-                .dob(Util.convertDateToString(userEntity.getDateOfBirth(), "dd-mm-yyyy"))
+                .dob(userEntity.getDateOfBirth())
                 .fatherName(userEntity.getFatherName())
                 .motherName(userEntity.getMotherName())
                 .presAddress(userEntity.getPresentAddress())

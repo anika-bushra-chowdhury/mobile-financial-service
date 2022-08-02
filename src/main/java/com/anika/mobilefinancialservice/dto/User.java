@@ -5,15 +5,15 @@ import com.anika.mobilefinancialservice.enums.Status;
 import com.anika.mobilefinancialservice.enums.UserType;
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.springframework.context.annotation.Profile;
+
+import java.util.Date;
 
 /**
  * @author atiQue
  * @since 31'Jul 2022 at 9:26 PM
  */
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +28,7 @@ public class User {
     private String nid;
 
     @NotNull
-    private String dob;
+    private Date dob;
 
     private String presAddress;
 

@@ -13,7 +13,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public UserEntity createUserEntity(UserEntity user) {
+    public UserEntity save(UserEntity user) {
         return userRepository.save(user);
     }
 }

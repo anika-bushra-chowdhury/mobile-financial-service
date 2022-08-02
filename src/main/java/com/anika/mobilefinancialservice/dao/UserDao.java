@@ -8,5 +8,5 @@ import com.anika.mobilefinancialservice.entity.UserEntity;
  */
 
 public interface UserDao {
-    UserEntity createUserEntity(UserEntity user);
+    UserEntity save(UserEntity user);
 }
