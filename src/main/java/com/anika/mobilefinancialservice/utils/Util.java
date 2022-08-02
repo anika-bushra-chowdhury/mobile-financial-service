@@ -31,7 +31,7 @@ public class Util {
         return date;
     }
 
-    public static Integer convertDateToDateInt(String date, String pattern) {
+    public static Integer convertDateToDateInt(Date date, String pattern) {
         if (date == null) {
             return null;
         }

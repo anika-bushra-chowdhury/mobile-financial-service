@@ -14,7 +14,7 @@ public class LastTxnDaoImpl implements LastTxnDao {
     }
 
     @Override
-    public LastTxnEntity createLastTxnEntity(LastTxnEntity lastTxnEntity) {
+    public LastTxnEntity save(LastTxnEntity lastTxnEntity) {
         return lastTxnRepository.save(lastTxnEntity);
     }
 }

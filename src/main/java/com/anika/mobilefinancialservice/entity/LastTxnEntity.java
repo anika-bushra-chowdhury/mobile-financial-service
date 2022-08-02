@@ -29,7 +29,7 @@ public class LastTxnEntity extends BaseDomain {
     private Date approvalDt;
 
     @Column(name = "APPROVAL_DATE")
-    private Number approvalDate;
+    private Integer approvalDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "TXN_TYPE")

@@ -4,5 +4,5 @@ import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 
 
 public interface LastTxnDao {
-    LastTxnEntity createLastTxnEntity(LastTxnEntity lastTxnEntity);
+    LastTxnEntity save(LastTxnEntity lastTxnEntity);
 }

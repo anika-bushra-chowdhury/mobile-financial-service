@@ -8,7 +8,7 @@ package com.anika.mobilefinancialservice.utils;
 public interface Constants {
 
     interface DateFormats {
-        String DOB = "dd-MM-yyyy";
+        String ddMMyyyy = "ddMMyyyy";
     }
 
 }
