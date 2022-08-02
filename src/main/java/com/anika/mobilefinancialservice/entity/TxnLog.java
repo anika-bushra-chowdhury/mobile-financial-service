@@ -69,4 +69,6 @@ public class TxnLog extends BaseDomain {
 
     @Column(name = "NR_NUMBER")
     private String nrNumber;
+
+    //todo: add txn status column
 }
