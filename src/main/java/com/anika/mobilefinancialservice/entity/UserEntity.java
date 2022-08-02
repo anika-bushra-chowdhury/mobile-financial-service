@@ -1,7 +1,7 @@
 package com.anika.mobilefinancialservice.entity;
 
 import com.anika.mobilefinancialservice.enums.ProfileType;
-import com.anika.mobilefinancialservice.enums.Status;
+import com.anika.mobilefinancialservice.enums.UserStatus;
 import com.anika.mobilefinancialservice.enums.UserType;
 import lombok.*;
 
@@ -62,7 +62,7 @@ public class UserEntity extends BaseDomain {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private Status status;
+    private UserStatus userStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PROFILE")

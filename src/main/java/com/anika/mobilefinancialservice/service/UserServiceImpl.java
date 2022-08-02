@@ -7,7 +7,7 @@ import com.anika.mobilefinancialservice.dto.User;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.UserEntity;
 import com.anika.mobilefinancialservice.enums.ProfileType;
-import com.anika.mobilefinancialservice.enums.Status;
+import com.anika.mobilefinancialservice.enums.UserStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
                 .pin(Util.encode(request.getPin()))
                 .userType(request.getUserType())
                 .profile(ProfileType.FULL)
-                .status(Status.ACTIVE)
+                .userStatus(UserStatus.ACTIVE)
                 .build();
     }
 
