@@ -10,4 +10,5 @@ public enum UserType {
     UserType(String value) {
         this.value = value;
     }
+
 }

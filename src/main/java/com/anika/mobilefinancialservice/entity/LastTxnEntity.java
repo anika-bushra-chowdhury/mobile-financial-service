@@ -7,10 +7,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * @author atiQue
- * @since 31'Jul 2022 at 9:27 PM
- */
 
 @Getter
 @Setter
@@ -19,7 +15,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "LAST_TXN")
-public class LastTxn extends BaseDomain {
+public class LastTxnEntity extends BaseDomain {
 
     @Id
     @GeneratedValue

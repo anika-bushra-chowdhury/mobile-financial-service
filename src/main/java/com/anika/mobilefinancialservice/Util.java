@@ -9,29 +9,42 @@ import java.util.Date;
 
 @Slf4j
 public class Util {
-    public static String convertDateToString(Date date) {
-        String pattern = "dd/mm/yyyy";
+    public static Base64 base64 = new Base64();
+
+
+    public static String convertDateToString(Date date, String pattern) {
+        if (date == null) {
+            return null;
+        }
         DateFormat df = new SimpleDateFormat(pattern);
         return df.format(date);
     }
 
-    public static Date convertStringToDate(String date) {
+    public static Date convertStringToDate(String dateString, String pattern) {
+        Date date = null;
         try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(date);
+            date = new SimpleDateFormat(pattern).parse(dateString);
+            log.info("Date is:", date);
         } catch (Exception e) {
-            log.error("Error while parsing Date of Birth :", e);
+            log.error("Error while parsing Date :", e);
         }
-        return null;
+        return date;
+    }
+
+    public static Integer convertDateToDateInt(String date, String pattern) {
+        if (date == null) {
+            return null;
+        }
+        DateFormat df = new SimpleDateFormat(pattern);
+        return Integer.parseInt(df.format(date));
     }
 
     public static String encode(String data) {
-        Base64 base64 = new Base64();
         String encodedString = new String(base64.encode(data.getBytes()));
         return encodedString;
     }
 
     public static String decode(String data) {
-        Base64 base64 = new Base64();
         String decodedString = new String(base64.decode(data.getBytes()));
         return decodedString;
     }

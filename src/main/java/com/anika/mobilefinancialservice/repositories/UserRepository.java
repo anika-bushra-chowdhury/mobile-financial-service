@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
  * @since 31'Jul 2022 at 9:28 PM
  */
 
-@Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+
+
 
 }
