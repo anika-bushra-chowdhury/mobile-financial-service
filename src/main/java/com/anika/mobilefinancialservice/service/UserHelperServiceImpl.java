@@ -1,6 +1,8 @@
 package com.anika.mobilefinancialservice.service;
 
+import com.anika.mobilefinancialservice.dao.UserDao;
 import com.anika.mobilefinancialservice.dto.User;
+import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.UserEntity;
 import com.anika.mobilefinancialservice.enums.ProfileType;
@@ -12,11 +14,18 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Random;
 
 
 @Slf4j
 @Service
 public class UserHelperServiceImpl implements UserHelperService {
+
+    private final UserDao userDao;
+
+    public UserHelperServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public LastTxnEntity prepareLastTxnEntity(User request) {
@@ -28,6 +37,7 @@ public class UserHelperServiceImpl implements UserHelperService {
                 .amount(new BigDecimal(0))
                 .availableBalance(new BigDecimal(0))
                 .balance(new BigDecimal(0))
+                .nrNumber(Util.generateNrNUmber())
                 .build();
     }
 
@@ -52,7 +62,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    public User prepareRegistrationResponse(UserEntity userEntity) {
+    public User prepareUser(UserEntity userEntity) {
         return User.builder()
                 .userName(userEntity.getUserName())
                 .phoneNumber(Util.decode(userEntity.getNumber()))
@@ -65,6 +75,32 @@ public class UserHelperServiceImpl implements UserHelperService {
                 .nidFront(userEntity.getNidFront())
                 .nidBack(userEntity.getNidBack())
                 .userType(userEntity.getUserType())
+                .profileType(ProfileType.FULL)
+                .userStatus(UserStatus.ACTIVE)
                 .build();
     }
+
+
+    @Override
+    public UserEntity getUserInfoByPhnNo(String phnNo) {
+
+        UserEntity userEntity = new UserEntity();
+
+        try {
+            userEntity = userDao.getByPhnNo(Util.encode(phnNo));
+        } catch (Exception e) {
+            log.error("Error while retrieving data of {}", phnNo);
+        }
+        return userEntity;
+    }
+
+    @Override
+    public UserBasicInfoResponse prepareUserBasicInfo(UserEntity userEntity) {
+        return UserBasicInfoResponse.builder()
+                .userName(userEntity.getUserName())
+                .photo(userEntity.getPhoto())
+                .userType(userEntity.getUserType())
+                .build();
+    }
+
 }

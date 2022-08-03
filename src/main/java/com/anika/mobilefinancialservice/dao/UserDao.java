@@ -9,4 +9,7 @@ import com.anika.mobilefinancialservice.entity.UserEntity;
 
 public interface UserDao {
     UserEntity save(UserEntity user);
+
+    UserEntity getByPhnNo(String phnNO);
+
 }

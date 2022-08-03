@@ -51,6 +51,9 @@ public class UserEntity extends BaseDomain {
     @Column(name = "MOTHER_NAME")
     private String motherName;
 
+    @Column(name = "PHOTO")
+    private String photo;
+
     @Column(name = "NID_FRONT")
     private String nidFront;
 

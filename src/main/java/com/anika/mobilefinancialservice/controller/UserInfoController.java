@@ -1,11 +1,10 @@
 package com.anika.mobilefinancialservice.controller;
 
 import com.anika.mobilefinancialservice.dto.User;
+import com.anika.mobilefinancialservice.dto.UserBasicInfoRequest;
+import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
 import com.anika.mobilefinancialservice.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author atiQue
@@ -25,5 +24,15 @@ public class UserInfoController {
     @PostMapping(value = "/register")
     public User register(@RequestBody User registrationRequest) {
         return userService.userRegistration(registrationRequest);
+    }
+
+    @GetMapping(value = "/get-user-info/{phnNO}")
+    public User getUserInfo(@PathVariable String phnNO) {
+        return userService.getUserInfo(phnNO);
+    }
+
+    @GetMapping(value = "/logIn")
+    public UserBasicInfoResponse getUserInfo(@RequestBody UserBasicInfoRequest infoRequest) {
+        return userService.getUserBasicInfo(infoRequest);
     }
 }

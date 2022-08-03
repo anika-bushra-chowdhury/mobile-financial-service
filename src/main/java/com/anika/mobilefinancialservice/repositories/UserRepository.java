@@ -12,5 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
 
+    UserEntity findByNumber(String phnNO);
 
 }

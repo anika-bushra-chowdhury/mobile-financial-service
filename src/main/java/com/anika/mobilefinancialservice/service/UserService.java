@@ -1,6 +1,8 @@
 package com.anika.mobilefinancialservice.service;
 
 import com.anika.mobilefinancialservice.dto.User;
+import com.anika.mobilefinancialservice.dto.UserBasicInfoRequest;
+import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
 
 /**
  * @author atiQue
@@ -8,5 +10,11 @@ import com.anika.mobilefinancialservice.dto.User;
  */
 
 public interface UserService {
+
     User userRegistration(User registrationRequest);
+
+    User getUserInfo(String phnNO);
+
+    UserBasicInfoResponse getUserBasicInfo(UserBasicInfoRequest infoRequest);
+
 }

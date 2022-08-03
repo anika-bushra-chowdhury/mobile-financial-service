@@ -16,4 +16,9 @@ public class UserDaoImpl implements UserDao {
     public UserEntity save(UserEntity user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public UserEntity getByPhnNo(String phnNO) {
+        return userRepository.findByNumber(phnNO);
+    }
 }

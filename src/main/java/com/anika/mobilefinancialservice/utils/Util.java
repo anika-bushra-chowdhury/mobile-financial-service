@@ -6,6 +6,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 @Slf4j
 public class Util {
@@ -45,5 +46,10 @@ public class Util {
 
     public static String decode(String data) {
         return new String(base64.decode(data.getBytes()));
+    }
+
+    public static String generateNrNUmber() {
+        Random random = new Random();
+        return "MFS" + (random.nextInt(9000000 - 1000000) + 1000000);
     }
 }
