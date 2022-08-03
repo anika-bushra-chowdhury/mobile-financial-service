@@ -37,7 +37,6 @@ public class UserHelperServiceImpl implements UserHelperService {
                 .amount(new BigDecimal(0))
                 .availableBalance(new BigDecimal(0))
                 .balance(new BigDecimal(0))
-                .nrNumber(Util.generateNrNUmber())
                 .build();
     }
 
