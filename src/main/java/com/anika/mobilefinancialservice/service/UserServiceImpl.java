@@ -10,6 +10,7 @@ import com.anika.mobilefinancialservice.entity.UserEntity;
 import com.anika.mobilefinancialservice.utils.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User userRegistration(User registrationRequest) {
 
         UserEntity userEntity = userHelperService.prepareUserEntity(registrationRequest);
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userHelperService.getUserInfoByPhnNo(infoRequest.getPhoneNumber());
 
         UserBasicInfoResponse infoResponse = new UserBasicInfoResponse();
-        if (userEntity != null && userEntity.getPin() == Util.encode(infoRequest.getPin())) {
+        if (userEntity != null && userEntity.getPin().equals(Util.encode(infoRequest.getPin()))) {
             infoResponse = userHelperService.prepareUserBasicInfo(userEntity);
         }
 

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Random;
 
 
 @Slf4j
@@ -44,7 +43,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     public UserEntity prepareUserEntity(User request) {
         return UserEntity.builder()
                 .userName(request.getUserName())
-                .number(Util.encode(request.getPhoneNumber()))
+                .accountNumber(Util.encode(request.getPhoneNumber()))
                 .nid(request.getNid())
                 .dateOfBirth(request.getDob())
                 .fatherName(request.getFatherName())
@@ -64,7 +63,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     public User prepareUser(UserEntity userEntity) {
         return User.builder()
                 .userName(userEntity.getUserName())
-                .phoneNumber(Util.decode(userEntity.getNumber()))
+                .phoneNumber(Util.decode(userEntity.getAccountNumber()))
                 .nid(userEntity.getNid())
                 .dob(userEntity.getDateOfBirth())
                 .fatherName(userEntity.getFatherName())
@@ -88,7 +87,7 @@ public class UserHelperServiceImpl implements UserHelperService {
         try {
             userEntity = userDao.getByPhnNo(Util.encode(phnNo));
         } catch (Exception e) {
-            log.error("Error while retrieving data of {}", phnNo);
+            log.error("Error while retrieving data of {}", phnNo, e);
         }
         return userEntity;
     }

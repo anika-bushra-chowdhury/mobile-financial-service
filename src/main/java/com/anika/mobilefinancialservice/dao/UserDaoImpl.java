@@ -19,6 +19,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public UserEntity getByPhnNo(String phnNO) {
-        return userRepository.findByNumber(phnNO);
+        return userRepository.findByAccountNumber(phnNO);
     }
 }
