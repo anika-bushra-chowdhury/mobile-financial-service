@@ -27,9 +27,9 @@ public class UserHelperServiceImpl implements UserHelperService {
     }
 
     @Override
-    public LastTxnEntity prepareLastTxnEntity(User request) {
+    public LastTxnEntity createLastTxnEntity(User request) {
         return LastTxnEntity.builder()
-                .number(Util.decode(request.getPhoneNumber()))
+                .accountNumber(Util.encode(request.getPhoneNumber()))
                 .approvalDt(new Date())
                 .approvalDate(Util.convertDateToDateInt(new Date(), Constants.DateFormats.ddMMyyyy))
                 .userType(request.getUserType())

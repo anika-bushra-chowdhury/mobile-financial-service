@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userHelperService.prepareUserEntity(registrationRequest);
         userEntity = userDao.save(userEntity);
 
-        LastTxnEntity lastTxnEntity = userHelperService.prepareLastTxnEntity(registrationRequest);
+        LastTxnEntity lastTxnEntity = userHelperService.createLastTxnEntity(registrationRequest);
         lastTxnDao.save(lastTxnEntity);
 
         return userHelperService.prepareUser(userEntity);

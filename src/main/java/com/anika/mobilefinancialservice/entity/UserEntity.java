@@ -6,6 +6,8 @@ import com.anika.mobilefinancialservice.enums.UserType;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -28,12 +30,15 @@ public class UserEntity extends BaseDomain {
     private Long id;
 
     @Column(name = "MSISDN")
+    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
+    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
     private String accountNumber;
 
     @Column(name = "NAME")
     private String userName;
 
     @Column(name = "NID")
+    @Pattern(regexp = "([0-9]*)", message = "NID should be numbers only.")
     private String nid;
 
     @Column(name = "DOB")
@@ -61,6 +66,8 @@ public class UserEntity extends BaseDomain {
     private String nidBack;
 
     @Column(name = "PIN")
+    @Pattern(regexp = "([0-9]*)", message = "Pin number should be numbers only.")
+    @Size(max = 4, min = 4, message = "Pin number should be 4 digits.")
     private String pin;
 
     @Enumerated(EnumType.STRING)

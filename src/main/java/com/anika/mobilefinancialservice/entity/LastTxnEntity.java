@@ -4,6 +4,8 @@ import com.anika.mobilefinancialservice.enums.*;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -23,7 +25,9 @@ public class LastTxnEntity extends BaseDomain {
     private Long id;
 
     @Column(name = "MSISDN")
-    private String number;
+    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
+    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
+    private String accountNumber;
 
     @Column(name = "APPROVAL_DATE_TIME")
     private Date approvalDt;

@@ -8,7 +8,7 @@ import com.anika.mobilefinancialservice.entity.UserEntity;
 
 public interface UserHelperService {
 
-    LastTxnEntity prepareLastTxnEntity(User request);
+    LastTxnEntity createLastTxnEntity(User request);
 
     UserEntity prepareUserEntity(User request);
 

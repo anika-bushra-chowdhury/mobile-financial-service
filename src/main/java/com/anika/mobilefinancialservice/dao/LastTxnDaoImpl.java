@@ -17,4 +17,9 @@ public class LastTxnDaoImpl implements LastTxnDao {
     public LastTxnEntity save(LastTxnEntity lastTxnEntity) {
         return lastTxnRepository.save(lastTxnEntity);
     }
+
+    @Override
+    public LastTxnEntity findByPhnNo(String phnNo) {
+        return lastTxnRepository.findByAccountNumber(phnNo);
+    }
 }

@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Builder
 @Entity
 @Table(name = "FEE_COMM_RATE")
-public class FeeCommRate extends BaseDomain {
+public class FeeCommEntity extends BaseDomain {
 
     @Id
     @GeneratedValue
