@@ -25,8 +25,6 @@ public class LastTxnEntity extends BaseDomain {
     private Long id;
 
     @Column(name = "MSISDN")
-    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
-    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
     private String accountNumber;
 
     @Column(name = "APPROVAL_DATE_TIME")

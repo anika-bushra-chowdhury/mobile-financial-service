@@ -29,15 +29,13 @@ public class TxnLogEntity extends BaseDomain {
     private Long id;
 
     @Column(name = "MSISDN")
-    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
-    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
     private String number;
 
     @Column(name = "APPROVAL_DATE_TIME")
     private Date approvalDt;
 
     @Column(name = "APPROVAL_DATE")
-    private Number approvalDate;
+    private Integer approvalDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "TXN_TYPE")

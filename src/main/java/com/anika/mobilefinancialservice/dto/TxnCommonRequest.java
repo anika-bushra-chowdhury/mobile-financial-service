@@ -19,15 +19,16 @@ public class TxnCommonRequest {
 
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
-    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
+//    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
+//    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
     private String toAccNo;
 
     private UserType toUserType;
 
     @NotNull
     @NotEmpty
-    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
+//    @Pattern(regexp = "([0-9]*)", message = "Account number should be numbers only.")
+//    @Size(max = 11, min = 11, message = "Account number should be 11 digits.")
     private String fromAccNo;
 
     private UserType fromUserType;
@@ -36,8 +37,10 @@ public class TxnCommonRequest {
 
     private TxnType txnType;
 
-    @Pattern(regexp = "([0-9]*)", message = "Pin number should be numbers only.")
-    @Size(max = 4, min = 4, message = "Pin number should be 4 digits.")
-    private String pin;
+//    @NotNull
+//    @NotEmpty
+//    @Pattern(regexp = "([0-9]*)", message = "Pin number should be numbers only.")
+//    @Size(max = 4, min = 4, message = "Pin number should be 4 digits.")
+//    private String pin;
 
 }
