@@ -34,8 +34,9 @@ public class TxnServiceImpl implements TxnService {
     @Transactional
     public TxnCommonResponse executeTxn(TxnCommonRequest txnRequest) {
 
-        List<FeeResource> feeResources = feeCommService.getByTxnType(txnRequest.getTxnType());
         BigDecimal fee = new BigDecimal(0);
+
+        List<FeeResource> feeResources = feeCommService.getByTxnType(txnRequest.getTxnType());
 
         if (!feeResources.isEmpty()) {
             for (FeeResource feeResource : feeResources) {
@@ -46,9 +47,13 @@ public class TxnServiceImpl implements TxnService {
         }
 
         BigDecimal totalAmount = txnRequest.getTxnAmount().add(fee);
+
         List<LastTxnEntity> orgTxnEntities = txnHelperService.generateOrgTxn(txnRequest, totalAmount);
+
+        txnHelperService.generateFeeTxnLog(orgTxnEntities, txnRequest, fee);
         return null;
     }
+
 
     private BigDecimal calculateFee(FeeResource feeResource, BigDecimal txnAmount) {
         BigDecimal fee = new BigDecimal(0);

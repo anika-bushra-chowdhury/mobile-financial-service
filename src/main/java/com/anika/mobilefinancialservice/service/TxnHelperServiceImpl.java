@@ -36,6 +36,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
         List<LastTxnEntity> lastTxnEntities = new ArrayList<>();
 
         LastTxnEntity senderLastTxn = lastTxnService.getLastTxn(request.getFromAccNo());
+
         if (senderLastTxn.getAvailableBalance().compareTo(totalAmount) == 1 || senderLastTxn.getAvailableBalance().compareTo(totalAmount) == 0) {
             LastTxnEntity receiverLastTxn = lastTxnService.getLastTxn(request.getToAccNo());
 
@@ -55,9 +56,16 @@ public class TxnHelperServiceImpl implements TxnHelperService {
         return lastTxnEntities;
     }
 
+    @Override
+    public void generateFeeTxnLog(List<LastTxnEntity> orgTxnEntities, TxnCommonRequest txnRequest, BigDecimal fee) {
+
+        for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
+            writeTxnLog(lastTxnEntity, txnRequest, fee);
+        }
+    }
+
 
     private void prepareLastTxn(LastTxnEntity lastTxn, SenderOrReceiver senderOrReceiver, String txnId, String nrNumber, TxnCommonRequest request, BigDecimal totalAmount) {
-
         switch (senderOrReceiver) {
             case SENDER -> {
                 lastTxn.setBalance(lastTxn.getBalance().subtract(request.getTxnAmount()));
@@ -81,7 +89,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
     }
 
 
-    private void writeTxnLog(LastTxnEntity lastTxn, TxnCommonRequest request, BigDecimal totalAmount) {
+    private void writeTxnLog(LastTxnEntity lastTxn, TxnCommonRequest request, BigDecimal amount) {
         TxnLogEntity txnLog = TxnLogEntity.builder()
                 .number(lastTxn.getAccountNumber())
                 .approvalDate(Util.convertDateToDateInt(new Date(), Constants.DateFormats.ddMMyyyy))
@@ -91,8 +99,8 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 .senderOrReceiver(lastTxn.getSenderOrReceiver())
                 .debitOrCredit(lastTxn.getDebitOrCredit())
                 .txnCategory(lastTxn.getTxnCategory())
-                .amount(request.getTxnAmount())
-                .preBalance(lastTxn.getAvailableBalance().subtract(totalAmount))
+                .amount(lastTxn.getTxnCategory().equals(TxnCategory.ORIGINAL) ? request.getTxnAmount() : amount)
+                .preBalance(lastTxn.getAvailableBalance().subtract(amount))
                 .currBalance(lastTxn.getAvailableBalance())
                 .txnId(lastTxn.getTxnId())
                 .nrNumber(lastTxn.getNrNumber())

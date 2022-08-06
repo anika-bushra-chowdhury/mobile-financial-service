@@ -9,9 +9,7 @@ import java.util.List;
 
 public interface TxnHelperService {
 
-//    List<User> getUserAccounts(TxnCommonRequest request);
-
-//    LastTxn getUserLastTxn(String phoneNo);
-
     List<LastTxnEntity> generateOrgTxn(TxnCommonRequest request, BigDecimal totalAmount);
+
+    void generateFeeTxnLog(List<LastTxnEntity> orgTxnEntities, TxnCommonRequest txnRequest, BigDecimal fee);
 }
