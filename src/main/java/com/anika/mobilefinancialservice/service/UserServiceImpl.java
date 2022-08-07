@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 
 @Slf4j
 @Service
@@ -19,11 +21,13 @@ public class UserServiceImpl implements UserService {
     private final UserHelperService userHelperService;
     private final LastTxnDao lastTxnDao;
     private final UserDao userDao;
+    private final LastTxnService lastTxnService;
 
-    public UserServiceImpl(LastTxnDao lastTxnDao, UserHelperService userHelperService, UserDao userDao) {
+    public UserServiceImpl(LastTxnDao lastTxnDao, UserHelperService userHelperService, UserDao userDao, LastTxnService lastTxnService) {
         this.userHelperService = userHelperService;
         this.lastTxnDao = lastTxnDao;
         this.userDao = userDao;
+        this.lastTxnService = lastTxnService;
     }
 
     @Override
@@ -60,5 +64,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return infoResponse;
+    }
+
+    @Override
+    public BigDecimal getBalance(String phnNo) {
+        LastTxnEntity lastTxn = lastTxnService.getLastTxn(phnNo);
+        return lastTxn.getAvailableBalance();
     }
 }
