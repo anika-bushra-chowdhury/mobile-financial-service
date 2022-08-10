@@ -31,7 +31,7 @@ public class UserInfoController {
         return userService.getUserInfo(phnNO);
     }
 
-    @GetMapping(value = "/logIn")
+    @PostMapping(value = "/logIn")
     public UserBasicInfoResponse getUserInfo(@RequestBody UserBasicInfoRequest infoRequest) {
         return userService.getUserBasicInfo(infoRequest);
     }
