@@ -27,7 +27,7 @@ public class UserEntity extends BaseDomain {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "MSISDN")
+    @Column(name = "MSISDN", unique = true)
     private String accountNumber;
 
     @Column(name = "NAME")

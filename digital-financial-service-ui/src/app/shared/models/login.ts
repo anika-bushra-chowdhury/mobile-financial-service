@@ -9,6 +9,7 @@ export interface LoginRes {
   userName: string;
   photo: string;
   userType: string;
+  phoneNumber: string;
 }
 
 export interface LoginContext {

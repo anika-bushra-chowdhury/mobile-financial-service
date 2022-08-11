@@ -25,4 +25,6 @@ public class UserBasicInfoResponse {
 
     @NotNull
     private UserType userType;
+
+    private String phoneNumber;
 }

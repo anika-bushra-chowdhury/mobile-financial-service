@@ -33,6 +33,6 @@ public class UserInfoController {
 
     @PostMapping(value = "/logIn")
     public UserBasicInfoResponse getUserInfo(@RequestBody UserBasicInfoRequest infoRequest) {
-        return userService.getUserBasicInfo(infoRequest);
+        return userService.logIn(infoRequest);
     }
 }

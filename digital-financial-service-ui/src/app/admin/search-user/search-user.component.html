@@ -1,0 +1,42 @@
+<div>
+  <mat-card class="box">
+    <div class="example-container">
+      <form [formGroup]="searchUserForm">
+        <mat-form-field hintLabel="Max 11 characters" appearance="fill">
+          <mat-label>Account No.</mat-label>
+          <input matInput #input maxlength="11" placeholder="017***" formControlName="phoneNumber" required>
+        </mat-form-field>
+      </form>
+      <button mat-raised-button color="primary" class="btn-block" type="button" (click)="search()">Search</button>
+    </div>
+  </mat-card>
+</div>
+
+<div>
+  <mat-card>
+    <mat-card-content>
+      <div>Account No: {{user.phoneNumber}}</div>
+    </mat-card-content>
+
+    <mat-card-content>
+      <div>Name: {{user.userName}}</div>
+    </mat-card-content>
+
+    <mat-card-content>
+      <div>User Type: {{user.userType}}</div>
+    </mat-card-content>
+
+    <mat-card-content>
+      <div>NID: {{user.nid}}</div>
+    </mat-card-content>
+
+    <mat-card-content>
+      <div>Date of Birth: {{user.dob}}</div>
+    </mat-card-content>
+
+    <mat-card-content>
+      <div>Address: {{user.presAddress}}</div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

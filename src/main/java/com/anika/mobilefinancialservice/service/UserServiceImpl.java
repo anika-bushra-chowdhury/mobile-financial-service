@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserBasicInfoResponse getUserBasicInfo(UserBasicInfoRequest infoRequest) {
+    public UserBasicInfoResponse logIn(UserBasicInfoRequest infoRequest) {
 
         UserEntity userEntity = userHelperService.getUserInfoByPhnNo(infoRequest.getPhoneNumber());
 
