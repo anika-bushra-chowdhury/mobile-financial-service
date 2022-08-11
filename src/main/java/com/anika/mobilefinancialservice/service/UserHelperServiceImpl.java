@@ -98,6 +98,7 @@ public class UserHelperServiceImpl implements UserHelperService {
                 .userName(userEntity.getUserName())
                 .photo(userEntity.getPhoto())
                 .userType(userEntity.getUserType())
+                .phoneNumber(Util.decode(userEntity.getAccountNumber()))
                 .build();
     }
 

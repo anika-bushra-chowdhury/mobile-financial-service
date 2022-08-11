@@ -1,0 +1,85 @@
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-content>
+        <mat-card-title>DFS User Registration</mat-card-title>
+      </mat-card-content>
+    </mat-card-header>
+
+    <form [formGroup]="registrationForm">
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <mat-label>Account No.</mat-label>
+          <input type="text" matInput placeholder="017********" formControlName="accNo" maxlength="11" required>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>User Type</mat-label>
+          <input type="text"
+                 placeholder="Pick one"
+                 matInput
+                 formControlName="userType"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredUserTypeOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput placeholder="Someone" formControlName="name" maxlength="40" required>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>NID</mat-label>
+          <input matInput placeholder="017********" formControlName="nid" maxlength="17" required>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Date of Birth</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dob">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-divider style="padding: 10px"></mat-divider>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Address</mat-label>
+          <textarea matInput placeholder="House#31/10 Road# 03 ..." formControlName="address" maxlength="250"
+                    required></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Pin</mat-label>
+          <input matInput [type]="hidePin ? 'password' : 'text'" formControlName="pin" maxlength="4" required>
+          <button mat-icon-button matSuffix (click)="hidePin = !hidePin" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hidePin">
+            <mat-icon>{{hidePin ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Confirm Pin</mat-label>
+          <input matInput [type]="hideCnfPin ? 'password' : 'text'" formControlName="cnfPin" maxlength="4" required>
+          <button mat-icon-button matSuffix (click)="hideCnfPin = !hideCnfPin" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hideCnfPin">
+            <mat-icon>{{hideCnfPin ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+        <span *ngIf="cnfPinNotMatch" style="color:red">*Pin do not match.</span>
+
+      </mat-card-content>
+
+      <button mat-raised-button color="primary" class="btn-block" type="submit" [disabled]="registrationForm.status === 'INVALID'" (click)="registration()">Submit</button>
+
+    </form>
+  </mat-card>
+
+</div>

@@ -39,6 +39,8 @@ public class UserServiceImpl implements UserService {
 
         LastTxnEntity lastTxnEntity = userHelperService.createLastTxnEntity(registrationRequest);
         lastTxnDao.save(lastTxnEntity);
+//        LastTxnEntity lastTxnEntity = userHelperService.prepareLastTxnEntity(registrationRequest);
+//        lastTxnDao.save(lastTxnEntity);
 
         return userHelperService.prepareUser(userEntity);
     }
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserBasicInfoResponse getUserBasicInfo(UserBasicInfoRequest infoRequest) {
+    public UserBasicInfoResponse logIn(UserBasicInfoRequest infoRequest) {
 
         UserEntity userEntity = userHelperService.getUserInfoByPhnNo(infoRequest.getPhoneNumber());
 

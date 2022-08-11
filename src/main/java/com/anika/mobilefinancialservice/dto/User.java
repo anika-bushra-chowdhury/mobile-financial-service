@@ -52,16 +52,10 @@ public class User {
 
     private String motherName;
 
-    @NotNull
-    @NotEmpty
     private String nidFront;
 
-    @NotNull
-    @NotEmpty
     private String nidBack;
 
-    @NotNull
-    @NotEmpty
     private String photo;
 
     @NotNull

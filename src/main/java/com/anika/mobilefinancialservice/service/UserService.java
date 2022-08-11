@@ -17,7 +17,7 @@ public interface UserService {
 
     User getUserInfo(String phnNO);
 
-    UserBasicInfoResponse getUserBasicInfo(UserBasicInfoRequest infoRequest);
+    UserBasicInfoResponse logIn(UserBasicInfoRequest infoRequest);
 
     BigDecimal getBalance(String phnNo);
 }
