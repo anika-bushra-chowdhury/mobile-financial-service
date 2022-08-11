@@ -2,6 +2,7 @@ package com.anika.mobilefinancialservice.service;
 
 import com.anika.mobilefinancialservice.dao.LastTxnDao;
 import com.anika.mobilefinancialservice.dao.UserDao;
+import com.anika.mobilefinancialservice.dto.Balance;
 import com.anika.mobilefinancialservice.dto.User;
 import com.anika.mobilefinancialservice.dto.UserBasicInfoRequest;
 import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 @Slf4j
@@ -39,8 +41,6 @@ public class UserServiceImpl implements UserService {
 
         LastTxnEntity lastTxnEntity = userHelperService.createLastTxnEntity(registrationRequest);
         lastTxnDao.save(lastTxnEntity);
-//        LastTxnEntity lastTxnEntity = userHelperService.prepareLastTxnEntity(registrationRequest);
-//        lastTxnDao.save(lastTxnEntity);
 
         return userHelperService.prepareUser(userEntity);
     }
@@ -49,7 +49,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserInfo(String phnNO) {
 
-        UserEntity userEntity = userHelperService.getUserInfoByPhnNo(phnNO);
+        UserEntity userEntity = userDao.getByPhnNo(Util.encode(phnNO));
+
+        if (userEntity == null) {
+            return null;
+        }
 
         return userHelperService.prepareUser(userEntity);
     }
@@ -58,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserBasicInfoResponse logIn(UserBasicInfoRequest infoRequest) {
 
-        UserEntity userEntity = userHelperService.getUserInfoByPhnNo(infoRequest.getPhoneNumber());
+        UserEntity userEntity = userDao.getByPhnNo(Util.encode(infoRequest.getPhoneNumber()));
 
         UserBasicInfoResponse infoResponse = new UserBasicInfoResponse();
         if (userEntity != null && userEntity.getPin().equals(Util.encode(infoRequest.getPin()))) {
@@ -69,8 +73,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public BigDecimal getBalance(String phnNo) {
+    public Balance getBalance(String phnNo) {
+
         LastTxnEntity lastTxn = lastTxnService.getLastTxn(phnNo);
-        return lastTxn.getAvailableBalance();
+
+        if (lastTxn == null) {
+            return null;
+        }
+
+        BigDecimal balance = lastTxn.getBalance().setScale(2, RoundingMode.DOWN);
+        BigDecimal availableBalance = lastTxn.getAvailableBalance().setScale(2, RoundingMode.DOWN);
+
+        return Balance.builder().balance(balance.toString()).availableBalance(availableBalance.toString()).build();
     }
 }

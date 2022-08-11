@@ -14,7 +14,5 @@ public interface UserHelperService {
 
     User prepareUser(UserEntity userEntity);
 
-    UserEntity getUserInfoByPhnNo(String phnNO);
-
     UserBasicInfoResponse prepareUserBasicInfo(UserEntity userEntity);
 }

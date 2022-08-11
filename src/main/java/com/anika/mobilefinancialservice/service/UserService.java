@@ -1,5 +1,6 @@
 package com.anika.mobilefinancialservice.service;
 
+import com.anika.mobilefinancialservice.dto.Balance;
 import com.anika.mobilefinancialservice.dto.User;
 import com.anika.mobilefinancialservice.dto.UserBasicInfoRequest;
 import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
@@ -19,5 +20,5 @@ public interface UserService {
 
     UserBasicInfoResponse logIn(UserBasicInfoRequest infoRequest);
 
-    BigDecimal getBalance(String phnNo);
+    Balance getBalance(String phnNo);
 }

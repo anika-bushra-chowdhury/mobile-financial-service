@@ -1,6 +1,5 @@
 package com.anika.mobilefinancialservice.service;
 
-import com.anika.mobilefinancialservice.dao.UserDao;
 import com.anika.mobilefinancialservice.dto.User;
 import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
@@ -19,12 +18,6 @@ import java.util.Date;
 @Slf4j
 @Service
 public class UserHelperServiceImpl implements UserHelperService {
-
-    private final UserDao userDao;
-
-    public UserHelperServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
     @Override
     public LastTxnEntity createLastTxnEntity(User request) {
@@ -76,20 +69,6 @@ public class UserHelperServiceImpl implements UserHelperService {
                 .profileType(ProfileType.FULL)
                 .userStatus(UserStatus.ACTIVE)
                 .build();
-    }
-
-
-    @Override
-    public UserEntity getUserInfoByPhnNo(String phnNo) {
-
-        UserEntity userEntity = new UserEntity();
-
-        try {
-            userEntity = userDao.getByPhnNo(Util.encode(phnNo));
-        } catch (Exception e) {
-            log.error("Error while retrieving data of {}", phnNo, e);
-        }
-        return userEntity;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.anika.mobilefinancialservice.controller;
 
-import com.anika.mobilefinancialservice.dto.LastTxn;
-import com.anika.mobilefinancialservice.dto.User;
-import com.anika.mobilefinancialservice.dto.UserBasicInfoRequest;
-import com.anika.mobilefinancialservice.dto.UserBasicInfoResponse;
+import com.anika.mobilefinancialservice.dto.*;
 import com.anika.mobilefinancialservice.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,12 +32,12 @@ public class UserInfoController {
     }
 
     @PostMapping(value = "/logIn")
-    public UserBasicInfoResponse getUserInfo(@RequestBody UserBasicInfoRequest infoRequest) {
+    public UserBasicInfoResponse logIn(@RequestBody UserBasicInfoRequest infoRequest) {
         return userService.logIn(infoRequest);
     }
 
-    @GetMapping(value = "/get-balance/{phnNO}")
-    public BigDecimal getUserBalance(@PathVariable String phnNO) {
-        return userService.getBalance(phnNO);
+    @GetMapping(value = "/get-balance/{phnNo}")
+    public Balance getUserBalance(@PathVariable String phnNo) {
+        return userService.getBalance(phnNo);
     }
 }
