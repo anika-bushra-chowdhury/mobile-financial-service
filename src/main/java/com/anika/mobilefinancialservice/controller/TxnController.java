@@ -4,9 +4,8 @@ import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.service.TxnService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -24,8 +23,10 @@ public class TxnController {
         return txnService.executeTxn(txnRequest);
     }
 
-    @GetMapping(value = "/get-user-txn/{phnNO}")
-    public List<TxnLogEntity> getUserTransactions(@PathVariable String phnNO) {
-        return txnService.getTxnHistory(phnNO);
+    @GetMapping(value = "/get-user-txn/{accNo}")
+    public Page<TxnLogEntity> getUserTransactions(@PathVariable String accNo) {
+//                                                  @PathVariable String pageNo,
+//                                                  @PathVariable String pageSize) {
+        return txnService.getTxnHistory(accNo, 1, 10);
     }
 }

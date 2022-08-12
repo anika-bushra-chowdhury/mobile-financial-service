@@ -1,6 +1,7 @@
 package com.anika.mobilefinancialservice.service;
 
 import com.anika.mobilefinancialservice.dao.FeeCommDao;
+import com.anika.mobilefinancialservice.dao.TxnLogDao;
 import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
@@ -8,6 +9,9 @@ import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,12 +23,14 @@ import java.util.List;
 @Service
 public class TxnServiceImpl implements TxnService {
     private final FeeCommDao feeCommDao;
+    private final TxnLogDao txnLogDao;
     private final TxnHelperService txnHelperService;
     private final FeeCommService feeCommService;
 
 
-    public TxnServiceImpl(FeeCommDao feeCommDao, TxnHelperService txnHelperService, FeeCommService feeCommService) {
+    public TxnServiceImpl(FeeCommDao feeCommDao, TxnLogDao txnLogDao, TxnHelperService txnHelperService, FeeCommService feeCommService) {
         this.feeCommDao = feeCommDao;
+        this.txnLogDao = txnLogDao;
         this.txnHelperService = txnHelperService;
         this.feeCommService = feeCommService;
     }
@@ -59,9 +65,10 @@ public class TxnServiceImpl implements TxnService {
     }
 
     @Override
-    public List<TxnLogEntity> getTxnHistory(String phnNO) {
-        return null;
+    public Page<TxnLogEntity> getTxnHistory(String accNo, int pageNo, int pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<TxnLogEntity> pagedResult = txnLogDao.getAll(accNo, paging);
+        return pagedResult;
     }
-
 
 }
