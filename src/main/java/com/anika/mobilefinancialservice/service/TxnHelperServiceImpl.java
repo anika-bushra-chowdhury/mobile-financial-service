@@ -3,6 +3,7 @@ package com.anika.mobilefinancialservice.service;
 import com.anika.mobilefinancialservice.dao.TxnLogDao;
 import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
+import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.enums.DebitOrCredit;
@@ -153,4 +154,22 @@ public class TxnHelperServiceImpl implements TxnHelperService {
         return feeComm;
     }
 
+
+    @Override
+    public TxnCommonResponse prepareTxnResponse(List<LastTxnEntity> orgTxnEntities, BigDecimal fee, BigDecimal commission) {
+        LastTxnEntity senderLastTxn = new LastTxnEntity();
+        for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
+            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
+                senderLastTxn = lastTxnEntity;
+            }
+        }
+        return TxnCommonResponse.builder()
+                .txnType(senderLastTxn.getTxnType())
+                .txnAmount(senderLastTxn.getAmount())
+                .fee(fee)
+                .commission(commission)
+                .txnId(senderLastTxn.getTxnId())
+                .balance(senderLastTxn.getBalance())
+                .build();
+    }
 }
