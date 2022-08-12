@@ -37,11 +37,11 @@ public class TxnHelperServiceImpl implements TxnHelperService {
 
         LastTxnEntity senderLastTxn = lastTxnService.getLastTxn(request.getFromAccNo());
 
-        if (senderLastTxn.getAvailableBalance().compareTo(totalAmount) >= 0) {
+        if (senderLastTxn.getBalance().compareTo(totalAmount) >= 0) {
             LastTxnEntity receiverLastTxn = lastTxnService.getLastTxn(request.getToAccNo());
 
-            String txnId = Util.generateNrNUmber();
             String nrNumber = Util.generateNrNUmber();
+            String txnId = nrNumber;
 
             prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, txnId + "1", nrNumber, request);
             prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, txnId + "2", nrNumber, request);
@@ -63,7 +63,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
             if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
                 lastTxnEntity.setBalance(lastTxnEntity.getBalance().subtract(fee));
                 lastTxnEntity.setDebitOrCredit(DebitOrCredit.DEBIT);
-                lastTxnEntity.setTxnId(lastTxnEntity.getTxnId() + "3");
+                lastTxnEntity.setTxnId(lastTxnEntity.getNrNumber() + "3");
                 lastTxnEntity.setTxnCategory(TxnCategory.FEE);
                 lastTxnEntity.setAmount(fee);
 
