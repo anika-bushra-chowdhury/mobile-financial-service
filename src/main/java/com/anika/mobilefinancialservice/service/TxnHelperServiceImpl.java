@@ -1,12 +1,14 @@
 package com.anika.mobilefinancialservice.service;
 
 import com.anika.mobilefinancialservice.dao.TxnLogDao;
+import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.enums.DebitOrCredit;
 import com.anika.mobilefinancialservice.enums.SenderOrReceiver;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
+import com.anika.mobilefinancialservice.enums.TxnType;
 import com.anika.mobilefinancialservice.utils.Constants;
 import com.anika.mobilefinancialservice.utils.Util;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +43,9 @@ public class TxnHelperServiceImpl implements TxnHelperService {
             LastTxnEntity receiverLastTxn = lastTxnService.getLastTxn(request.getToAccNo());
 
             String nrNumber = Util.generateNrNUmber();
-            String txnId = nrNumber;
 
-            prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, txnId + "1", nrNumber, request);
-            prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, txnId + "2", nrNumber, request);
+            prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, nrNumber + "1", nrNumber, request);
+            prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, nrNumber + "2", nrNumber, request);
 
             lastTxnEntities.add(lastTxnService.updateLastTxnEntity(senderLastTxn));
             writeTxnLog(senderLastTxn);
@@ -57,10 +58,10 @@ public class TxnHelperServiceImpl implements TxnHelperService {
     }
 
     @Override
-    public void generateFeeTxnLog(List<LastTxnEntity> orgTxnEntities, TxnCommonRequest txnRequest, BigDecimal fee) {
+    public void generateFeeCommTxnLog(List<LastTxnEntity> orgTxnEntities, TxnCommonRequest txnRequest, BigDecimal fee, BigDecimal commission) {
 
         for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
-            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
+            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER && fee.compareTo(BigDecimal.ZERO) == 1) {
                 lastTxnEntity.setBalance(lastTxnEntity.getBalance().subtract(fee));
                 lastTxnEntity.setDebitOrCredit(DebitOrCredit.DEBIT);
                 lastTxnEntity.setTxnId(lastTxnEntity.getNrNumber() + "3");
@@ -68,7 +69,28 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 lastTxnEntity.setAmount(fee);
 
                 lastTxnService.updateLastTxnEntity(lastTxnEntity);
+                writeTxnLog(lastTxnEntity);
 
+            } else if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.RECEIVER && commission.compareTo(BigDecimal.ZERO) == 1
+                    && lastTxnEntity.getTxnType() != TxnType.CASH_IN) {
+                lastTxnEntity.setBalance(lastTxnEntity.getBalance().add(commission));
+                lastTxnEntity.setDebitOrCredit(DebitOrCredit.CREDIT);
+                lastTxnEntity.setTxnId(lastTxnEntity.getNrNumber() + "4");
+                lastTxnEntity.setTxnCategory(TxnCategory.COMMISSION);
+                lastTxnEntity.setAmount(commission);
+
+                lastTxnService.updateLastTxnEntity(lastTxnEntity);
+                writeTxnLog(lastTxnEntity);
+
+            } else if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER && commission.compareTo(BigDecimal.ZERO) == 1
+                    && lastTxnEntity.getTxnType() == TxnType.CASH_IN) {
+                lastTxnEntity.setBalance(lastTxnEntity.getBalance().add(commission));
+                lastTxnEntity.setDebitOrCredit(DebitOrCredit.CREDIT);
+                lastTxnEntity.setTxnId(lastTxnEntity.getNrNumber() + "4");
+                lastTxnEntity.setTxnCategory(TxnCategory.COMMISSION);
+                lastTxnEntity.setAmount(commission);
+
+                lastTxnService.updateLastTxnEntity(lastTxnEntity);
                 writeTxnLog(lastTxnEntity);
             }
         }
@@ -88,7 +110,6 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 lastTxn.setSenderOrReceiver(SenderOrReceiver.RECEIVER);
             }
         }
-
         lastTxn.setTxnId(txnId);
         lastTxn.setNrNumber(nrNumber);
         lastTxn.setTxnType(request.getTxnType());
@@ -116,4 +137,20 @@ public class TxnHelperServiceImpl implements TxnHelperService {
 
         txnLogDao.save(txnLog);
     }
+
+    @Override
+    public BigDecimal calculateFeeComm(FeeCommResource feeCommResource, BigDecimal txnAmount) {
+        BigDecimal feeComm = BigDecimal.ZERO;
+
+        switch (feeCommResource.getRateType()) {
+            case FIXED -> {
+                feeComm = feeCommResource.getRate();
+            }
+            case RATE -> {
+                feeComm = txnAmount.multiply(feeCommResource.getRate()).divide(Constants.ONE_HUNDRED);
+            }
+        }
+        return feeComm;
+    }
+
 }

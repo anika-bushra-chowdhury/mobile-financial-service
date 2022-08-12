@@ -5,9 +5,8 @@ import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
-import com.anika.mobilefinancialservice.enums.RateType;
+import com.anika.mobilefinancialservice.enums.SenderOrReceiver;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
-import com.anika.mobilefinancialservice.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,14 +33,17 @@ public class TxnServiceImpl implements TxnService {
     @Transactional
     public TxnCommonResponse executeTxn(TxnCommonRequest txnRequest) {
 
-        BigDecimal fee = new BigDecimal(0);
+        BigDecimal fee = BigDecimal.ZERO;
+        BigDecimal commission = BigDecimal.ZERO;
 
         List<FeeCommResource> feeCommResources = feeCommService.getByTxnType(txnRequest.getTxnType());
 
         if (!feeCommResources.isEmpty()) {
             for (FeeCommResource feeCommResource : feeCommResources) {
                 if (feeCommResource.getTxnCategory().equals(TxnCategory.FEE)) {
-                    fee = calculateFee(feeCommResource, txnRequest.getTxnAmount());
+                    fee = txnHelperService.calculateFeeComm(feeCommResource, txnRequest.getTxnAmount());
+                } else if (feeCommResource.getTxnCategory().equals(TxnCategory.COMMISSION)) {
+                    commission = txnHelperService.calculateFeeComm(feeCommResource, txnRequest.getTxnAmount());
                 }
             }
         }
@@ -50,22 +52,29 @@ public class TxnServiceImpl implements TxnService {
 
         List<LastTxnEntity> orgTxnEntities = txnHelperService.generateOrgTxn(txnRequest, totalAmount);
 
-        txnHelperService.generateFeeTxnLog(orgTxnEntities, txnRequest, fee);
-        return null;
+        TxnCommonResponse txnCommonResponse = prepareTxnResponse(orgTxnEntities, fee, commission);
+
+        txnHelperService.generateFeeCommTxnLog(orgTxnEntities, txnRequest, fee, commission);
+
+        return txnCommonResponse;
     }
 
 
-    private BigDecimal calculateFee(FeeCommResource feeCommResource, BigDecimal txnAmount) {
-        BigDecimal fee = BigDecimal.ZERO;
-
-        if (feeCommResource.getRateType().equals(RateType.FIXED)) {
-            fee = feeCommResource.getRate();
-        } else {
-            fee = txnAmount.multiply(feeCommResource.getRate()).divide(Constants.ONE_HUNDRED);
+    private TxnCommonResponse prepareTxnResponse(List<LastTxnEntity> orgTxnEntities, BigDecimal fee, BigDecimal commission) {
+        LastTxnEntity senderLastTxn = new LastTxnEntity();
+        for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
+            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
+                senderLastTxn = lastTxnEntity;
+            }
         }
-
-        return fee;
+        return TxnCommonResponse.builder()
+                .txnType(senderLastTxn.getTxnType())
+                .txnAmount(senderLastTxn.getAmount())
+                .fee(fee)
+                .commission(commission)
+                .txnId(senderLastTxn.getTxnId())
+                .balance(senderLastTxn.getBalance())
+                .build();
     }
-
 
 }

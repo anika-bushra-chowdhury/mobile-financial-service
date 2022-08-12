@@ -27,8 +27,6 @@ public class TxnCommonResponse {
 
     private BigDecimal balance;
 
-    private BigDecimal availableBalance;
-
     private String txnId;
 
 }
