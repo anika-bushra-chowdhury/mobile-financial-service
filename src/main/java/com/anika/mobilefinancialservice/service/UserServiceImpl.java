@@ -84,6 +84,6 @@ public class UserServiceImpl implements UserService {
         BigDecimal balance = lastTxn.getBalance().setScale(2, RoundingMode.DOWN);
         BigDecimal availableBalance = lastTxn.getAvailableBalance().setScale(2, RoundingMode.DOWN);
 
-        return Balance.builder().balance(balance.toString()).availableBalance(availableBalance.toString()).build();
+        return Balance.builder().balance(balance).availableBalance(availableBalance).build();
     }
 }

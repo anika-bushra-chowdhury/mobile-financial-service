@@ -3,13 +3,13 @@ package com.anika.mobilefinancialservice.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum FeeType {
+public enum RateType {
     FIXED("FIXED"),
     RATE("RATE");
 
-    private String value;
+    private final String value;
 
-    FeeType(String value) {
+    RateType(String value) {
         this.value = value;
     }
 
@@ -17,15 +17,15 @@ public enum FeeType {
         return value;
     }
 
-    public static final Map<String, FeeType> MAP_BY_VALUE = new HashMap<>();
+    public static final Map<String, RateType> MAP_BY_VALUE = new HashMap<>();
 
     static void populateMap() {
-        for (FeeType feeType : values()) {
-            MAP_BY_VALUE.put(feeType.value, feeType);
+        for (RateType rateType : values()) {
+            MAP_BY_VALUE.put(rateType.value, rateType);
         }
     }
 
-    public static FeeType getByValue(String value) {
+    public static RateType getByValue(String value) {
         return MAP_BY_VALUE.get(value);
     }
 }

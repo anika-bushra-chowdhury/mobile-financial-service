@@ -24,7 +24,7 @@ public class LastTxnServiceImpl implements LastTxnService {
 
         try {
             String s = Util.encode(phnNo);
-            lastTxnEntity = lastTxnDao.findByPhnNo(Util.encode(phnNo));
+            lastTxnEntity = lastTxnDao.findByPhnNos(Util.encode(phnNo));
         } catch (Exception e) {
             log.error("Error while retrieving data of {}", phnNo, e);
         }

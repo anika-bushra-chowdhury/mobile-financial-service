@@ -4,6 +4,8 @@ import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.repositories.LastTxnRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class LastTxnDaoImpl implements LastTxnDao {
 
@@ -19,7 +21,17 @@ public class LastTxnDaoImpl implements LastTxnDao {
     }
 
     @Override
-    public LastTxnEntity findByPhnNo(String phnNo) {
+    public List<LastTxnEntity> save(List<LastTxnEntity> entities) {
+        return lastTxnRepository.saveAll(entities);
+    }
+
+    @Override
+    public LastTxnEntity findByPhnNos(String phnNo) {
         return lastTxnRepository.findByAccountNumber(phnNo);
+    }
+
+    @Override
+    public List<LastTxnEntity> findByPhnNos(List<String> phnNos) {
+        return lastTxnRepository.findByAccountNumberIn(phnNos);
     }
 }

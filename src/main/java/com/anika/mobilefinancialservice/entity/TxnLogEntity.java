@@ -1,11 +1,10 @@
 package com.anika.mobilefinancialservice.entity;
 
+import com.anika.mobilefinancialservice.converter.AccountNumberConverter;
 import com.anika.mobilefinancialservice.enums.*;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -28,8 +27,9 @@ public class TxnLogEntity extends BaseDomain {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @Convert(converter = AccountNumberConverter.class)
     @Column(name = "MSISDN")
-    private String number;
+    private String accountNumber;
 
     @Column(name = "APPROVAL_DATE_TIME")
     private Date approvalDt;
@@ -64,7 +64,13 @@ public class TxnLogEntity extends BaseDomain {
     private BigDecimal preBalance;
 
     @Column(name = "CURRENT_BALANCE")
-    private BigDecimal currBalance;
+    private BigDecimal newBalance;
+
+    @Column(name = "PRE_AVAILABLE_BALANCE")
+    private BigDecimal preAvailableBalance;
+
+    @Column(name = "CURRENT_BALANCE")
+    private BigDecimal newAvailableBalance;
 
     @Column(name = "TXN_ID")
     private String txnId;
@@ -72,5 +78,6 @@ public class TxnLogEntity extends BaseDomain {
     @Column(name = "NR_NUMBER")
     private String nrNumber;
 
-    //todo: add txn status column
+    @Column(name = "TXN_STATUS")
+    private TxnStatus txnStatus;
 }

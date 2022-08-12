@@ -1,7 +1,7 @@
 package com.anika.mobilefinancialservice.service;
 
 import com.anika.mobilefinancialservice.dao.FeeCommDao;
-import com.anika.mobilefinancialservice.dto.FeeResource;
+import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.entity.FeeCommEntity;
 import com.anika.mobilefinancialservice.enums.TxnType;
 import lombok.extern.slf4j.Slf4j;
@@ -21,24 +21,24 @@ public class FeeCommServiceImpl implements FeeCommService {
     }
 
     @Override
-    public List<FeeResource> getByTxnType(TxnType txnType) {
+    public List<FeeCommResource> getByTxnType(TxnType txnType) {
         List<FeeCommEntity> feeCommEntities = feeCommDao.findAllByTxnType(txnType);
 
-        List<FeeResource> feeResources = new ArrayList<>();
+        List<FeeCommResource> feeCommResources = new ArrayList<>();
         for (FeeCommEntity feeCommEntity : feeCommEntities) {
-            FeeResource feeResource = prepareFeeResources(feeCommEntity);
-            feeResources.add(feeResource);
+            FeeCommResource feeCommResource = prepareFeeResources(feeCommEntity);
+            feeCommResources.add(feeCommResource);
         }
-        return feeResources;
+        return feeCommResources;
     }
 
-    private FeeResource prepareFeeResources(FeeCommEntity entity) {
-        return FeeResource.builder()
+    private FeeCommResource prepareFeeResources(FeeCommEntity entity) {
+        return FeeCommResource.builder()
                 .txnType(entity.getTxnType())
                 .txnCategory(entity.getTxnCategory())
-                .feeName(entity.getFeeName())
-                .feeRate(entity.getFeeRate())
-                .feeType(entity.getFeeType())
+                .name(entity.getName())
+                .rate(entity.getRate())
+                .rateType(entity.getRateType())
                 .userType(entity.getUserType())
                 .senderOrReceiver(entity.getSenderOrReceiver())
                 .maxAmount(entity.getMaxAmount())

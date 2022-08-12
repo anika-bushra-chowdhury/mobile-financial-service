@@ -42,14 +42,14 @@ public class FeeCommEntity extends BaseDomain {
     private TxnCategory txnCategory;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "FEE_TYPE")
-    private FeeType feeType;
+    @Column(name = "RATE_TYPE")
+    private RateType rateType;
 
-    @Column(name = "FEE_NAME")
-    private String feeName;
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "RATE")
-    private BigDecimal feeRate;
+    private BigDecimal rate;
 
     @Column(name = "AMOUNT_MIN")
     private BigDecimal minAmount;

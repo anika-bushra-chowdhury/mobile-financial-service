@@ -1,5 +1,6 @@
 package com.anika.mobilefinancialservice.entity;
 
+import com.anika.mobilefinancialservice.converter.AccountNumberConverter;
 import com.anika.mobilefinancialservice.enums.ProfileType;
 import com.anika.mobilefinancialservice.enums.UserStatus;
 import com.anika.mobilefinancialservice.enums.UserType;
@@ -29,6 +30,7 @@ public class UserEntity extends BaseDomain {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @Convert(converter = AccountNumberConverter.class)
     @Column(name = "MSISDN", unique = true)
     private String accountNumber;
 

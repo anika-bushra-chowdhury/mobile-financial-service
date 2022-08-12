@@ -1,5 +1,6 @@
 package com.anika.mobilefinancialservice.dto;
 
+import com.anika.mobilefinancialservice.enums.TxnType;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -14,8 +15,13 @@ public class TxnCommonResponse {
 
     private String responseMessage;
 
+    private TxnType txnType;
+
+    private String reference;
+
     private BigDecimal txnAmount;
 
+    private BigDecimal balance;
     private BigDecimal availableBalance;
 
     private String txnId;

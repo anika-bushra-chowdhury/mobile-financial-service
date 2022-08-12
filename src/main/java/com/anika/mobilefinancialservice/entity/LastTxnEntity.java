@@ -1,11 +1,10 @@
 package com.anika.mobilefinancialservice.entity;
 
+import com.anika.mobilefinancialservice.converter.AccountNumberConverter;
 import com.anika.mobilefinancialservice.enums.*;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -24,6 +23,7 @@ public class LastTxnEntity extends BaseDomain {
     @Column(name = "ID", nullable = false)
     private Long id;
 
+    @Convert(converter = AccountNumberConverter.class)
     @Column(name = "MSISDN")
     private String accountNumber;
 

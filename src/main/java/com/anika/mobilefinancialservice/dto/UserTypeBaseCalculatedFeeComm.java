@@ -5,19 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author atiQue
- * @since 11'Aug 2022 at 8:47 PM
+ * @since 12'Aug 2022 at 1:47 AM
  */
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Balance {
+public class UserTypeBaseCalculatedFeeComm {
 
-    private BigDecimal balance;
-    private BigDecimal availableBalance;
+    private List<CalculatedFeeComm> senderFeeComms;
+
+    private List<CalculatedFeeComm> receiverFeeComms;
 }

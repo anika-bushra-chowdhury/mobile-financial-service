@@ -1,11 +1,11 @@
 package com.anika.mobilefinancialservice.service;
 
 import com.anika.mobilefinancialservice.dao.FeeCommDao;
-import com.anika.mobilefinancialservice.dto.FeeResource;
+import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
-import com.anika.mobilefinancialservice.enums.FeeType;
+import com.anika.mobilefinancialservice.enums.RateType;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
 import com.anika.mobilefinancialservice.utils.Constants;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +36,12 @@ public class TxnServiceImpl implements TxnService {
 
         BigDecimal fee = new BigDecimal(0);
 
-        List<FeeResource> feeResources = feeCommService.getByTxnType(txnRequest.getTxnType());
+        List<FeeCommResource> feeCommResources = feeCommService.getByTxnType(txnRequest.getTxnType());
 
-        if (!feeResources.isEmpty()) {
-            for (FeeResource feeResource : feeResources) {
-                if (feeResource.getTxnCategory().equals(TxnCategory.FEE.getValue())) {
-                    fee = calculateFee(feeResource, txnRequest.getTxnAmount());
+        if (!feeCommResources.isEmpty()) {
+            for (FeeCommResource feeCommResource : feeCommResources) {
+                if (feeCommResource.getTxnCategory().equals(TxnCategory.FEE)) {
+                    fee = calculateFee(feeCommResource, txnRequest.getTxnAmount());
                 }
             }
         }
@@ -55,13 +55,13 @@ public class TxnServiceImpl implements TxnService {
     }
 
 
-    private BigDecimal calculateFee(FeeResource feeResource, BigDecimal txnAmount) {
-        BigDecimal fee = new BigDecimal(0);
+    private BigDecimal calculateFee(FeeCommResource feeCommResource, BigDecimal txnAmount) {
+        BigDecimal fee = BigDecimal.ZERO;
 
-        if (feeResource.getFeeType().equals(FeeType.FIXED)) {
-            fee = feeResource.getFeeRate();
+        if (feeCommResource.getRateType().equals(RateType.FIXED)) {
+            fee = feeCommResource.getRate();
         } else {
-            fee = txnAmount.multiply(feeResource.getFeeRate()).divide(Constants.ONE_HUNDRED);
+            fee = txnAmount.multiply(feeCommResource.getRate()).divide(Constants.ONE_HUNDRED);
         }
 
         return fee;

@@ -37,7 +37,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
 
         LastTxnEntity senderLastTxn = lastTxnService.getLastTxn(request.getFromAccNo());
 
-        if (senderLastTxn.getAvailableBalance().compareTo(totalAmount) == 1 || senderLastTxn.getAvailableBalance().compareTo(totalAmount) == 0) {
+        if (senderLastTxn.getAvailableBalance().compareTo(totalAmount) >= 0) {
             LastTxnEntity receiverLastTxn = lastTxnService.getLastTxn(request.getToAccNo());
 
             String txnId = Util.generateNrNUmber();
@@ -91,7 +91,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
 
     private void writeTxnLog(LastTxnEntity lastTxn, TxnCommonRequest request, BigDecimal amount) {
         TxnLogEntity txnLog = TxnLogEntity.builder()
-                .number(lastTxn.getAccountNumber())
+                .accountNumber(lastTxn.getAccountNumber())
                 .approvalDate(Util.convertDateToDateInt(new Date(), Constants.DateFormats.ddMMyyyy))
                 .approvalDt(new Date())
                 .txnType(lastTxn.getTxnType())
@@ -101,7 +101,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 .txnCategory(lastTxn.getTxnCategory())
                 .amount(lastTxn.getTxnCategory().equals(TxnCategory.ORIGINAL) ? request.getTxnAmount() : amount)
                 .preBalance(lastTxn.getAvailableBalance().subtract(amount))
-                .currBalance(lastTxn.getAvailableBalance())
+                .newBalance(lastTxn.getAvailableBalance())
                 .txnId(lastTxn.getTxnId())
                 .nrNumber(lastTxn.getNrNumber())
                 .build();

@@ -22,7 +22,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     @Override
     public LastTxnEntity createLastTxnEntity(User request) {
         return LastTxnEntity.builder()
-                .accountNumber(Util.encode(request.getPhoneNumber()))
+                .accountNumber(request.getPhoneNumber())
                 .approvalDt(new Date())
                 .approvalDate(Util.convertDateToDateInt(new Date(), Constants.DateFormats.ddMMyyyy))
                 .userType(request.getUserType())
@@ -36,7 +36,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     public UserEntity prepareUserEntity(User request) {
         return UserEntity.builder()
                 .userName(request.getUserName())
-                .accountNumber(Util.encode(request.getPhoneNumber()))
+                .accountNumber(request.getPhoneNumber())
                 .nid(request.getNid())
                 .dateOfBirth(request.getDob())
                 .fatherName(request.getFatherName())
@@ -56,7 +56,7 @@ public class UserHelperServiceImpl implements UserHelperService {
     public User prepareUser(UserEntity userEntity) {
         return User.builder()
                 .userName(userEntity.getUserName())
-                .phoneNumber(Util.decode(userEntity.getAccountNumber()))
+                .phoneNumber(userEntity.getAccountNumber())
                 .nid(userEntity.getNid())
                 .dob(userEntity.getDateOfBirth())
                 .fatherName(userEntity.getFatherName())
@@ -77,7 +77,7 @@ public class UserHelperServiceImpl implements UserHelperService {
                 .userName(userEntity.getUserName())
                 .photo(userEntity.getPhoto())
                 .userType(userEntity.getUserType())
-                .phoneNumber(Util.decode(userEntity.getAccountNumber()))
+                .phoneNumber(userEntity.getAccountNumber())
                 .build();
     }
 

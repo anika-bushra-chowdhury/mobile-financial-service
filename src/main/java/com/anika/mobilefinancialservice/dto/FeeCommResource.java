@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeeResource {
+public class FeeCommResource {
 
     private TxnType txnType;
 
@@ -20,11 +20,11 @@ public class FeeResource {
 
     private TxnCategory txnCategory;
 
-    private FeeType feeType;
+    private RateType rateType;
 
-    private String feeName;
+    private String name;
 
-    private BigDecimal feeRate;
+    private BigDecimal rate;
 
     private BigDecimal minAmount;
 
