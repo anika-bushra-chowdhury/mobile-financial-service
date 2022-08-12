@@ -43,14 +43,14 @@ public class TxnHelperServiceImpl implements TxnHelperService {
             String txnId = Util.generateNrNUmber();
             String nrNumber = Util.generateNrNUmber();
 
-            prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, txnId, nrNumber, request, totalAmount);
-            prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, txnId, nrNumber, request, totalAmount);
+            prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, txnId + "1", nrNumber, request);
+            prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, txnId + "2", nrNumber, request);
 
             lastTxnEntities.add(lastTxnService.updateLastTxnEntity(senderLastTxn));
-            writeTxnLog(senderLastTxn, request, totalAmount);
+            writeTxnLog(senderLastTxn);
 
             lastTxnEntities.add(lastTxnService.updateLastTxnEntity(receiverLastTxn));
-            writeTxnLog(receiverLastTxn, request, totalAmount);
+            writeTxnLog(receiverLastTxn);
         }
 
         return lastTxnEntities;
@@ -60,22 +60,30 @@ public class TxnHelperServiceImpl implements TxnHelperService {
     public void generateFeeTxnLog(List<LastTxnEntity> orgTxnEntities, TxnCommonRequest txnRequest, BigDecimal fee) {
 
         for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
-            writeTxnLog(lastTxnEntity, txnRequest, fee);
+            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
+                lastTxnEntity.setBalance(lastTxnEntity.getBalance().subtract(fee));
+                lastTxnEntity.setDebitOrCredit(DebitOrCredit.DEBIT);
+                lastTxnEntity.setTxnId(lastTxnEntity.getTxnId() + "3");
+                lastTxnEntity.setTxnCategory(TxnCategory.FEE);
+                lastTxnEntity.setAmount(fee);
+
+                lastTxnService.updateLastTxnEntity(lastTxnEntity);
+
+                writeTxnLog(lastTxnEntity);
+            }
         }
     }
 
 
-    private void prepareLastTxn(LastTxnEntity lastTxn, SenderOrReceiver senderOrReceiver, String txnId, String nrNumber, TxnCommonRequest request, BigDecimal totalAmount) {
+    private void prepareLastTxn(LastTxnEntity lastTxn, SenderOrReceiver senderOrReceiver, String txnId, String nrNumber, TxnCommonRequest request) {
         switch (senderOrReceiver) {
             case SENDER -> {
                 lastTxn.setBalance(lastTxn.getBalance().subtract(request.getTxnAmount()));
-                lastTxn.setAvailableBalance(lastTxn.getAvailableBalance().subtract(totalAmount));
                 lastTxn.setDebitOrCredit(DebitOrCredit.DEBIT);
                 lastTxn.setSenderOrReceiver(SenderOrReceiver.SENDER);
             }
             case RECEIVER -> {
                 lastTxn.setBalance(lastTxn.getBalance().add(request.getTxnAmount()));
-                lastTxn.setAvailableBalance(lastTxn.getAvailableBalance().add(totalAmount));
                 lastTxn.setDebitOrCredit(DebitOrCredit.CREDIT);
                 lastTxn.setSenderOrReceiver(SenderOrReceiver.RECEIVER);
             }
@@ -89,7 +97,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
     }
 
 
-    private void writeTxnLog(LastTxnEntity lastTxn, TxnCommonRequest request, BigDecimal amount) {
+    private void writeTxnLog(LastTxnEntity lastTxn) {
         TxnLogEntity txnLog = TxnLogEntity.builder()
                 .accountNumber(lastTxn.getAccountNumber())
                 .approvalDate(Util.convertDateToDateInt(new Date(), Constants.DateFormats.ddMMyyyy))
@@ -99,9 +107,9 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 .senderOrReceiver(lastTxn.getSenderOrReceiver())
                 .debitOrCredit(lastTxn.getDebitOrCredit())
                 .txnCategory(lastTxn.getTxnCategory())
-                .amount(lastTxn.getTxnCategory().equals(TxnCategory.ORIGINAL) ? request.getTxnAmount() : amount)
-                .preBalance(lastTxn.getAvailableBalance().subtract(amount))
-                .newBalance(lastTxn.getAvailableBalance())
+                .amount(lastTxn.getAmount())
+                .preBalance(lastTxn.getBalance().subtract(lastTxn.getAmount()))
+                .newBalance(lastTxn.getBalance())
                 .txnId(lastTxn.getTxnId())
                 .nrNumber(lastTxn.getNrNumber())
                 .build();

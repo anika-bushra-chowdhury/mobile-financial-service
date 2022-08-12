@@ -21,10 +21,14 @@ public class TxnCommonResponse {
 
     private BigDecimal txnAmount;
 
+    private BigDecimal fee;
+
+    private BigDecimal commission;
+
     private BigDecimal balance;
+
     private BigDecimal availableBalance;
 
     private String txnId;
 
-    Map<String, String> otherAmounts;
 }

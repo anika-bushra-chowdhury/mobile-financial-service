@@ -69,7 +69,7 @@ public class TxnLogEntity extends BaseDomain {
     @Column(name = "PRE_AVAILABLE_BALANCE")
     private BigDecimal preAvailableBalance;
 
-    @Column(name = "CURRENT_BALANCE")
+    @Column(name = "CURRENT_AVAILABLE_BALANCE")
     private BigDecimal newAvailableBalance;
 
     @Column(name = "TXN_ID")

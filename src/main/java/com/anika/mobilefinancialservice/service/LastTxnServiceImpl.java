@@ -3,7 +3,6 @@ package com.anika.mobilefinancialservice.service;
 import com.anika.mobilefinancialservice.dao.LastTxnDao;
 import com.anika.mobilefinancialservice.dto.LastTxn;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
-import com.anika.mobilefinancialservice.utils.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +22,7 @@ public class LastTxnServiceImpl implements LastTxnService {
         LastTxnEntity lastTxnEntity = new LastTxnEntity();
 
         try {
-            String s = Util.encode(phnNo);
-            lastTxnEntity = lastTxnDao.findByPhnNos(Util.encode(phnNo));
+            lastTxnEntity = lastTxnDao.findByPhnNos(phnNo);
         } catch (Exception e) {
             log.error("Error while retrieving data of {}", phnNo, e);
         }
