@@ -5,6 +5,7 @@ import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
+import com.anika.mobilefinancialservice.enums.TxnType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,5 +18,5 @@ public interface TxnHelperService {
 
     BigDecimal calculateFeeComm(FeeCommResource feeCommResource, BigDecimal txnAmount);
 
-    TxnCommonResponse prepareTxnResponse(List<LastTxnEntity> orgTxnEntities, BigDecimal fee, BigDecimal commission);
+    TxnCommonResponse prepareTxnResponse(List<LastTxnEntity> orgTxnEntities, BigDecimal fee, BigDecimal commission, TxnType txnType);
 }

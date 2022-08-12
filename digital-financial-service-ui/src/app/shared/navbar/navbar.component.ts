@@ -12,7 +12,8 @@ export class NavbarComponent implements OnInit {
     userName: "",
     photo: "",
     userType: "",
-    phoneNumber: ""
+    phoneNumber: "",
+    errorMessage: ""
   }
 
   constructor() {

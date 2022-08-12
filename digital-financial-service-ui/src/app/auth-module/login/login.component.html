@@ -27,6 +27,8 @@
       <mat-card-content>
         <!--        <p *ngIf="showInvalidInput">*Please enter valid input</p>-->
         <span *ngIf="logInPressed && logInForm.status == 'INVALID'" style="color:red">*Please enter valid input</span>
+        <mat-divider></mat-divider>
+        <span *ngIf="logInPressed && errorMessage == 'FAILED'" style="color:red">*Account No. & Pin did not matched.</span>
         <button mat-raised-button color="primary" class="btn-block" type="button" (click)="logIn()"><B>Log in</B>
         </button>
       </mat-card-content>

@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   hide: boolean = true;
   logInPressed: boolean = false;
+  errorMessage: string = "";
 
   logInForm = this.fb.group({
     accNo: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11), Validators.pattern("(01[3-9]\\d{8})$")])],
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
     userName: "",
     photo: "",
     userType: "",
-    phoneNumber: ""
+    phoneNumber: "",
+    errorMessage: ""
   };
 
   constructor(private fb: FormBuilder, private dfsHttpServiceService: DfsHttpServiceService, private router: Router) {
@@ -49,16 +51,20 @@ export class LoginComponent implements OnInit {
 
       console.log(this.loginRes);
 
-      let routPath: string = ``;
-      if (this.loginRes.userType === 'CUSTOMER') {
-        routPath = `customer`;
-      } else if (this.loginRes.userType === 'AGENT') {
-        routPath = `agent`;
-      } else if (this.loginRes.userType === 'SYSTEM') {
-        routPath = `admin`;
-      }
+      this.errorMessage = this.loginRes.errorMessage;
 
-      this.router.navigate([routPath], {state: {data: this.loginRes}})
+      if (this.errorMessage === `SUCCESS`) {
+        let routPath: string = ``;
+        if (this.loginRes.userType === 'CUSTOMER') {
+          routPath = `customer`;
+        } else if (this.loginRes.userType === 'AGENT') {
+          routPath = `agent`;
+        } else if (this.loginRes.userType === 'SYSTEM') {
+          routPath = `admin`;
+        }
+
+        this.router.navigate([routPath], {state: {data: this.loginRes}})
+      }
     } else {
     }
   }

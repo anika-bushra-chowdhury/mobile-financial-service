@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserInfo(String phnNO) {
 
-        UserEntity userEntity = userDao.getByPhnNo(Util.encode(phnNO));
+        UserEntity userEntity = userDao.getByPhnNo(phnNO);
 
         if (userEntity == null) {
             return null;
@@ -62,11 +62,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserBasicInfoResponse logIn(UserBasicInfoRequest infoRequest) {
 
-        UserEntity userEntity = userDao.getByPhnNo(Util.encode(infoRequest.getPhoneNumber()));
+        UserEntity userEntity = userDao.getByPhnNo(infoRequest.getPhoneNumber());
 
         UserBasicInfoResponse infoResponse = new UserBasicInfoResponse();
         if (userEntity != null && userEntity.getPin().equals(Util.encode(infoRequest.getPin()))) {
             infoResponse = userHelperService.prepareUserBasicInfo(userEntity);
+            infoResponse.setErrorMessage("SUCCESS");
+        } else {
+            infoResponse.setErrorMessage("FAILED");
         }
 
         return infoResponse;

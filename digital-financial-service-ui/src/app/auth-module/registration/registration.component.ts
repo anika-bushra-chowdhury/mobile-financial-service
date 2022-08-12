@@ -107,7 +107,8 @@ export class RegistrationComponent implements OnInit {
           userName: this.user.userName,
           photo: "",
           userType: this.user.userType,
-          phoneNumber: this.user.phoneNumber
+          phoneNumber: this.user.phoneNumber,
+          errorMessage: ""
         };
 
         if (this.fromUi === `from-home`) {

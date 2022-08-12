@@ -9,6 +9,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { UserDetailsComponent } from './user-details/user-details.component';
 import {MatCardModule} from "@angular/material/card";
+import { CheckBalanceComponent } from './check-balance/check-balance.component';
 
 
 
@@ -17,7 +18,8 @@ import {MatCardModule} from "@angular/material/card";
     SidebarComponent,
     NavbarComponent,
     FooterComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    CheckBalanceComponent
   ],
     exports: [
         SidebarComponent,

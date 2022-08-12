@@ -15,7 +15,8 @@ export class PortalComponent implements OnInit {
       userName: "",
       photo: "",
       userType: "",
-      phoneNumber: ""
+      phoneNumber: "",
+      errorMessage: ""
     },
     portalMenuItems: []
   }
@@ -38,22 +39,24 @@ export class PortalComponent implements OnInit {
   }
 
   cuMenuItems: RouteInfo[] = [
-    {path: '/customer/b2b', title: 'B2B', icon: 'dashboard', class: ''},
+    {path: '/customer/check-balance', title: 'Check Balance', icon: 'dashboard', class: ''},
     {path: '/customer/user-details', title: 'User Profile', icon: 'person', class: ''},
+    {path: '/customer/transaction-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];
 
   agMenuItems: RouteInfo[] = [
-    {path: '/agent/b2b', title: 'B2B', icon: 'dashboard', class: ''},
+    {path: '/agent/check-balance', title: 'Check Balance', icon: 'dashboard', class: ''},
     {path: '/agent/user-details', title: 'User Profile', icon: 'person', class: ''},
-    {path: '/agent/table-list', title: 'Table List', icon: 'content_paste', class: ''},
+    {path: '/agent/transaction-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];
 
   adminMenuItems: RouteInfo[] = [
+    {path: '/admin/check-balance', title: 'Check Balance', icon: 'dashboard', class: ''},
     {path: '/admin/user-details', title: 'User Profile', icon: 'person', class: ''},
-    {path: '/admin/search-user', title: 'Search User', icon: 'content_paste', class: ''},
     {path: '/admin/user-registration', title: 'User Registration', icon: 'bubble_chart', class: ''},
+    {path: '/admin/search-user', title: 'Search User', icon: 'content_paste', class: ''},
     {path: '/admin/b2b', title: 'B2B', icon: 'dashboard', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];

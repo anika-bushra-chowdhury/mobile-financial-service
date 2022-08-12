@@ -10,6 +10,7 @@ export interface LoginRes {
   photo: string;
   userType: string;
   phoneNumber: string;
+  errorMessage: string;
 }
 
 export interface LoginContext {

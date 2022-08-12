@@ -9,6 +9,7 @@ import {LoginInfo} from './models/login';
 import {LoginRes} from "./models/login";
 import {HttpErrorHandler, HandleError} from '../http-error-handler.service';
 import {User} from "./models/user";
+import {BalanceRes} from "./models/balanceRes";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -34,6 +35,8 @@ export class DfsHttpServiceService {
   logUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/logIn';
   regUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/register';
   getUserUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/get-user-info/';
+  getUserBalanceUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/get-balance/';
+
   private handleError: HandleError;
 
   constructor(
@@ -52,6 +55,10 @@ export class DfsHttpServiceService {
 
   getUser(phoneNumber: string): Observable<User> {
     return this.http.get<User>(this.getUserUrl + phoneNumber);
+  }
+
+  getUserBalance(phoneNumber: string): Observable<BalanceRes> {
+    return this.http.get<BalanceRes>(this.getUserBalanceUrl + phoneNumber);
   }
 
   /* GET heroes whose name contains search term */

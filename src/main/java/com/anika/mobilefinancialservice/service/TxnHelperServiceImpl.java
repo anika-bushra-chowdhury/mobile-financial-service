@@ -36,23 +36,49 @@ public class TxnHelperServiceImpl implements TxnHelperService {
     @Override
     @Transactional
     public List<LastTxnEntity> generateOrgTxn(TxnCommonRequest request, BigDecimal totalAmount) {
+
         List<LastTxnEntity> lastTxnEntities = new ArrayList<>();
 
-        LastTxnEntity senderLastTxn = lastTxnService.getLastTxn(request.getFromAccNo());
+        if (request.getTxnType() != TxnType.B2B_AG && request.getTxnType() != TxnType.REDEEM_AG) {
 
-        if (senderLastTxn.getBalance().compareTo(totalAmount) >= 0) {
+            LastTxnEntity senderLastTxn = lastTxnService.getLastTxn(request.getFromAccNo());
+
+            if (senderLastTxn.getBalance().compareTo(totalAmount) >= 0) {
+                LastTxnEntity receiverLastTxn = lastTxnService.getLastTxn(request.getToAccNo());
+
+                String nrNumber = Util.generateNrNUmber();
+
+                prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, nrNumber + "1", nrNumber, request);
+                prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, nrNumber + "2", nrNumber, request);
+
+                lastTxnEntities.add(lastTxnService.updateLastTxnEntity(senderLastTxn));
+                writeTxnLog(senderLastTxn);
+
+                lastTxnEntities.add(lastTxnService.updateLastTxnEntity(receiverLastTxn));
+                writeTxnLog(receiverLastTxn);
+            }
+
+        } else if (request.getTxnType() == TxnType.B2B_AG) {
+
             LastTxnEntity receiverLastTxn = lastTxnService.getLastTxn(request.getToAccNo());
 
             String nrNumber = Util.generateNrNUmber();
 
-            prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, nrNumber + "1", nrNumber, request);
-            prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, nrNumber + "2", nrNumber, request);
-
-            lastTxnEntities.add(lastTxnService.updateLastTxnEntity(senderLastTxn));
-            writeTxnLog(senderLastTxn);
+            prepareLastTxn(receiverLastTxn, SenderOrReceiver.RECEIVER, nrNumber + "1", nrNumber, request);
 
             lastTxnEntities.add(lastTxnService.updateLastTxnEntity(receiverLastTxn));
             writeTxnLog(receiverLastTxn);
+
+        } else if (request.getTxnType() == TxnType.REDEEM_AG) {
+
+            LastTxnEntity senderLastTxn = lastTxnService.getLastTxn(request.getFromAccNo());
+
+            String nrNumber = Util.generateNrNUmber();
+
+            prepareLastTxn(senderLastTxn, SenderOrReceiver.SENDER, nrNumber + "1", nrNumber, request);
+
+            lastTxnEntities.add(lastTxnService.updateLastTxnEntity(senderLastTxn));
+            writeTxnLog(senderLastTxn);
         }
 
         return lastTxnEntities;
@@ -62,7 +88,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
     public void generateFeeCommTxnLog(List<LastTxnEntity> orgTxnEntities, TxnCommonRequest txnRequest, BigDecimal fee, BigDecimal commission) {
 
         for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
-            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER && fee.compareTo(BigDecimal.ZERO) == 1) {
+            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER && fee.compareTo(BigDecimal.ZERO) > 0) {
                 lastTxnEntity.setBalance(lastTxnEntity.getBalance().subtract(fee));
                 lastTxnEntity.setDebitOrCredit(DebitOrCredit.DEBIT);
                 lastTxnEntity.setTxnId(lastTxnEntity.getNrNumber() + "3");
@@ -72,7 +98,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 lastTxnService.updateLastTxnEntity(lastTxnEntity);
                 writeTxnLog(lastTxnEntity);
 
-            } else if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.RECEIVER && commission.compareTo(BigDecimal.ZERO) == 1
+            } else if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.RECEIVER && commission.compareTo(BigDecimal.ZERO) > 0
                     && lastTxnEntity.getTxnType() != TxnType.CASH_IN) {
                 lastTxnEntity.setBalance(lastTxnEntity.getBalance().add(commission));
                 lastTxnEntity.setDebitOrCredit(DebitOrCredit.CREDIT);
@@ -83,7 +109,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 lastTxnService.updateLastTxnEntity(lastTxnEntity);
                 writeTxnLog(lastTxnEntity);
 
-            } else if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER && commission.compareTo(BigDecimal.ZERO) == 1
+            } else if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER && commission.compareTo(BigDecimal.ZERO) > 0
                     && lastTxnEntity.getTxnType() == TxnType.CASH_IN) {
                 lastTxnEntity.setBalance(lastTxnEntity.getBalance().add(commission));
                 lastTxnEntity.setDebitOrCredit(DebitOrCredit.CREDIT);
@@ -156,20 +182,31 @@ public class TxnHelperServiceImpl implements TxnHelperService {
 
 
     @Override
-    public TxnCommonResponse prepareTxnResponse(List<LastTxnEntity> orgTxnEntities, BigDecimal fee, BigDecimal commission) {
-        LastTxnEntity senderLastTxn = new LastTxnEntity();
-        for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
-            if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
-                senderLastTxn = lastTxnEntity;
+    public TxnCommonResponse prepareTxnResponse(List<LastTxnEntity> orgTxnEntities, BigDecimal fee, BigDecimal commission, TxnType txnType) {
+
+        LastTxnEntity lastTxn = new LastTxnEntity();
+
+        if (TxnType.B2B_AG == txnType) {
+            for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
+                if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.RECEIVER) {
+                    lastTxn = lastTxnEntity;
+                }
+            }
+        } else {
+            for (LastTxnEntity lastTxnEntity : orgTxnEntities) {
+                if (lastTxnEntity.getSenderOrReceiver() == SenderOrReceiver.SENDER) {
+                    lastTxn = lastTxnEntity;
+                }
             }
         }
+
         return TxnCommonResponse.builder()
-                .txnType(senderLastTxn.getTxnType())
-                .txnAmount(senderLastTxn.getAmount())
+                .txnType(lastTxn.getTxnType())
+                .txnAmount(lastTxn.getAmount())
                 .fee(fee)
                 .commission(commission)
-                .txnId(senderLastTxn.getTxnId())
-                .balance(senderLastTxn.getBalance())
+                .txnId(lastTxn.getTxnId())
+                .balance(lastTxn.getBalance())
                 .build();
     }
 }

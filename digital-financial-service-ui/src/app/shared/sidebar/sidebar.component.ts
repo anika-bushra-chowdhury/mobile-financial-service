@@ -17,7 +17,8 @@ export class SidebarComponent implements OnInit {
     userName: "",
     photo: "",
     userType: "",
-    phoneNumber: ""
+    phoneNumber: "",
+    errorMessage: ""
   }
 
   @Input() loginContext: LoginContext = {
@@ -25,7 +26,8 @@ export class SidebarComponent implements OnInit {
       userName: "",
       photo: "",
       userType: "",
-      phoneNumber: ""
+      phoneNumber: "",
+      errorMessage: ""
     },
     portalMenuItems: []
   }

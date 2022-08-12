@@ -6,6 +6,7 @@ import {PortalComponent} from "./custom-layout/portal/portal.component";
 import {RegistrationComponent} from "./auth-module/registration/registration.component";
 import {SearchUserComponent} from "./admin/search-user/search-user.component";
 import {UserDetailsComponent} from "./shared/user-details/user-details.component";
+import {CheckBalanceComponent} from "./shared/check-balance/check-balance.component";
 
 const routes: Routes = [
   {
@@ -25,17 +26,18 @@ const routes: Routes = [
     path: `admin`,
     component: PortalComponent,
     children: [
+      {path: `check-balance`, component: CheckBalanceComponent},
       {path: `b2b`, component: BToBComponent},
       {path: `user-registration`, component: RegistrationComponent},
       {path: `search-user`, component: SearchUserComponent},
-      {path: `user-details`, component: UserDetailsComponent}
+      {path: `user-details`, component: UserDetailsComponent},
     ]
   },
   {
     path: `customer`,
     component: PortalComponent,
     children: [
-      {path: `b2b`, component: BToBComponent},
+      {path: `check-balance`, component: CheckBalanceComponent},
       {path: `user-details`, component: UserDetailsComponent}
     ]
   },
@@ -43,7 +45,7 @@ const routes: Routes = [
     path: `agent`,
     component: PortalComponent,
     children: [
-      {path: `b2b`, component: BToBComponent},
+      {path: `check-balance`, component: CheckBalanceComponent},
       {path: `user-details`, component: UserDetailsComponent}
     ]
   }

@@ -7,6 +7,7 @@ import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
+import com.anika.mobilefinancialservice.enums.TxnType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,9 +52,11 @@ public class TxnServiceImpl implements TxnService {
         BigDecimal totalAmount = txnRequest.getTxnAmount().add(fee);
         List<LastTxnEntity> orgTxnEntities = txnHelperService.generateOrgTxn(txnRequest, totalAmount);
 
-        TxnCommonResponse txnCommonResponse = txnHelperService.prepareTxnResponse(orgTxnEntities, fee, commission);
+        TxnCommonResponse txnCommonResponse = txnHelperService.prepareTxnResponse(orgTxnEntities, fee, commission, txnRequest.getTxnType());
 
-        txnHelperService.generateFeeCommTxnLog(orgTxnEntities, txnRequest, fee, commission);
+        if (txnRequest.getTxnType() != TxnType.B2B_AG && txnRequest.getTxnType() != TxnType.REDEEM_AG) {
+            txnHelperService.generateFeeCommTxnLog(orgTxnEntities, txnRequest, fee, commission);
+        }
 
         return txnCommonResponse;
     }

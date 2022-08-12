@@ -27,4 +27,6 @@ public class UserBasicInfoResponse {
     private UserType userType;
 
     private String phoneNumber;
+
+    private String errorMessage;
 }
