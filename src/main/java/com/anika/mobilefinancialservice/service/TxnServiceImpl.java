@@ -5,6 +5,7 @@ import com.anika.mobilefinancialservice.dao.TxnLogDao;
 import com.anika.mobilefinancialservice.dto.FeeCommResource;
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
+import com.anika.mobilefinancialservice.dto.TxnHistoryRequest;
 import com.anika.mobilefinancialservice.entity.LastTxnEntity;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.enums.TxnCategory;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,10 +73,11 @@ public class TxnServiceImpl implements TxnService {
     }
 
     @Override
-    public Page<TxnLogEntity> getTxnHistory(String accNo, int pageNo, int pageSize) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
-        Page<TxnLogEntity> pagedResult = txnLogDao.getAll(accNo, paging);
-        return pagedResult;
+    public Page<TxnLogEntity> getTxnHistory(TxnHistoryRequest request) {
+
+        Pageable paging = PageRequest.of(request.getPageNo(), request.getPageSize(), Sort.by("approvalDt").descending());
+
+        return txnLogDao.getAll(request.getAccountNo(), request.getFromDate(), request.getToDate(), paging);
     }
 
 }

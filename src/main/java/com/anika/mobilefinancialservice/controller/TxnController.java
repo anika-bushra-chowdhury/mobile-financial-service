@@ -2,6 +2,7 @@ package com.anika.mobilefinancialservice.controller;
 
 import com.anika.mobilefinancialservice.dto.TxnCommonRequest;
 import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
+import com.anika.mobilefinancialservice.dto.TxnHistoryRequest;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.service.TxnService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +34,19 @@ public class TxnController {
         return response;
     }
 
-    @GetMapping(value = "/get-user-txn/{accNo}")
-    public Page<TxnLogEntity> getUserTransactions(@PathVariable String accNo) {
-//                                                  @PathVariable String pageNo,
-//                                                  @PathVariable String pageSize) {
-        return txnService.getTxnHistory(accNo, 1, 10);
+    @PostMapping(value = "/get-user-txn")
+    public Page<TxnLogEntity> getUserTransactions(@RequestBody TxnHistoryRequest request) {
+
+        log.info("Txn History request : {}", request.toString());
+
+        if (request.getPageNo() == null) {
+            request.setPageNo(0);
+        }
+
+        if (request.getPageSize() == null) {
+            request.setPageSize(5);
+        }
+
+        return txnService.getTxnHistory(request);
     }
 }

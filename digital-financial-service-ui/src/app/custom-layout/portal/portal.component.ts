@@ -28,6 +28,7 @@ export class PortalComponent implements OnInit {
     this.loginContext.loginRes = history.state.data;
 
     this.dataContextService.phoneNumber = this.loginContext.loginRes.phoneNumber;
+    this.dataContextService.userType = this.loginContext.loginRes.userType;
 
     if (this.loginContext.loginRes.userType === 'CUSTOMER') {
       this.loginContext.portalMenuItems = this.cuMenuItems;
@@ -43,7 +44,7 @@ export class PortalComponent implements OnInit {
     {path: '/customer/user-details', title: 'User Profile', icon: 'person', class: ''},
     {path: '/customer/p2p', title: 'P2P', icon: 'dashboard', class: ''},
     {path: '/customer/cash-out', title: 'Cash Out', icon: 'dashboard', class: ''},
-    {path: '/customer/transaction-history', title: 'Transaction History', icon: 'content_paste', class: ''},
+    {path: '/customer/txn-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];
 
@@ -52,16 +53,17 @@ export class PortalComponent implements OnInit {
     {path: '/agent/user-details', title: 'User Profile', icon: 'person', class: ''},
     {path: '/agent/cash-in', title: 'Cash In', icon: 'dashboard', class: ''},
     {path: '/agent/redeem', title: 'E-Money Redeem', icon: 'dashboard', class: ''},
-    {path: '/agent/transaction-history', title: 'Transaction History', icon: 'content_paste', class: ''},
+    {path: '/agent/txn-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];
 
   adminMenuItems: RouteInfo[] = [
     {path: '/admin/check-balance', title: 'Check Balance', icon: 'dashboard', class: ''},
+    {path: '/admin/b2b', title: 'B2B', icon: 'dashboard', class: ''},
+    {path: '/admin/user-txn-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/admin/user-details', title: 'User Profile', icon: 'person', class: ''},
     {path: '/admin/user-registration', title: 'User Registration', icon: 'bubble_chart', class: ''},
     {path: '/admin/search-user', title: 'Search User', icon: 'content_paste', class: ''},
-    {path: '/admin/b2b', title: 'B2B', icon: 'dashboard', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];
 

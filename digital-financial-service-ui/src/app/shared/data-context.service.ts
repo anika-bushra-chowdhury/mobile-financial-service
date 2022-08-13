@@ -7,8 +7,17 @@ export class DataContextService {
 
   private _phoneNumber: string = ``;
   private _transactionResultNextRout: string = ``;
+  private _userType: string = ``;
 
   constructor() {
+  }
+
+  set userType(value: string) {
+    this._userType = value;
+  }
+
+  get userType(): string {
+    return this._userType;
   }
 
   set phoneNumber(value: string) {

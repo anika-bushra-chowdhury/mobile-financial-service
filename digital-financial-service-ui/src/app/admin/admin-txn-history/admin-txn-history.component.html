@@ -1,0 +1,99 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <mat-card>
+      <mat-card-title><h1>Transaction History</h1></mat-card-title>
+      <mat-card-header>
+
+        <form [formGroup]="txnHistoryForm">
+          <div class="row">
+
+            <mat-form-field color="accent" appearance="fill">
+              <mat-label>User Account no.</mat-label>
+              <input matInput type="text" placeholder="017****" formControlName="accNo" maxlength="11" required>
+            </mat-form-field>
+
+            <mat-form-field color="accent" appearance="fill">
+              <mat-label>Inherited calendar color</mat-label>
+              <input matInput [matDatepicker]="picker1" formControlName="fromDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field color="accent" appearance="fill">
+              <mat-label>Custom calendar color</mat-label>
+              <input matInput [matDatepicker]="picker2" formControlName="toDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+
+            <div>
+              <button mat-raised-button color="primary" type="submit" [disabled]="txnHistoryForm.status === 'INVALID'" (click)="searchTxnHistory(0,5)">Search</button>
+            </div>
+
+          </div>
+        </form>
+
+      </mat-card-header>
+    </mat-card>
+
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="serial">
+          <th mat-header-cell *matHeaderCellDef>No.</th>
+          <td mat-cell *matCellDef="let element"> {{element.serial}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="txnType">
+          <th mat-header-cell *matHeaderCellDef>Transaction Type</th>
+          <td mat-cell *matCellDef="let element"> {{element.txnType}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let element"> {{element.amount}} TK.</td>
+        </ng-container>
+
+        <ng-container matColumnDef="debitOrCredit">
+          <th mat-header-cell *matHeaderCellDef>Debit/Credit</th>
+          <td mat-cell *matCellDef="let element"> {{element.debitOrCredit}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="txnCategory">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let element"> {{element.txnCategory}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="senderOrReceiver">
+          <th mat-header-cell *matHeaderCellDef>Sender/Receiver</th>
+          <td mat-cell *matCellDef="let element"> {{element.senderOrReceiver}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="txnId">
+          <th mat-header-cell *matHeaderCellDef>Transaction Id</th>
+          <td mat-cell *matCellDef="let element"> {{element.txnId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="approvalDtStr">
+          <th mat-header-cell *matHeaderCellDef>Approval Date</th>
+          <td mat-cell *matCellDef="let element"> {{element.approvalDtStr}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="reference">
+          <th mat-header-cell *matHeaderCellDef>Reference</th>
+          <td mat-cell *matCellDef="let element"> {{element.reference}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator #paginator [length]="totalRows" [pageIndex]="pageIndex" [pageSize]="pageSize"
+                     [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page"
+                     showFirstLastButtons>
+      </mat-paginator>
+
+    </div>
+  </div>
+</div>
+

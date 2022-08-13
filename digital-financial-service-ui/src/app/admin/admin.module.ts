@@ -10,12 +10,17 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {SharedModule} from "../shared/shared.module";
+import { AdminTxnHistoryComponent } from './admin-txn-history/admin-txn-history.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 
 
 @NgModule({
   declarations: [
     BToBComponent,
     SearchUserComponent,
+    AdminTxnHistoryComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +33,9 @@ import {SharedModule} from "../shared/shared.module";
     MatFormFieldModule,
     MatIconModule,
     SharedModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatDatepickerModule,
   ]
 })
 export class AdminModule {

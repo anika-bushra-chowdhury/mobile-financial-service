@@ -12,6 +12,13 @@ import {MatCardModule} from "@angular/material/card";
 import { CheckBalanceComponent } from './check-balance/check-balance.component';
 import { TransactionResultComponent } from './transaction-result/transaction-result.component';
 import {MatDividerModule} from "@angular/material/divider";
+import { TxnHistoryComponent } from './txn-history/txn-history.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 
@@ -22,7 +29,8 @@ import {MatDividerModule} from "@angular/material/divider";
     FooterComponent,
     UserDetailsComponent,
     CheckBalanceComponent,
-    TransactionResultComponent
+    TransactionResultComponent,
+    TxnHistoryComponent
   ],
     exports: [
         SidebarComponent,
@@ -37,7 +45,13 @@ import {MatDividerModule} from "@angular/material/divider";
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

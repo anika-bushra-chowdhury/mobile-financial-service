@@ -11,6 +11,7 @@ import {HttpErrorHandler, HandleError} from '../http-error-handler.service';
 import {User} from "./models/user";
 import {BalanceRes} from "./models/balanceRes";
 import {TransactionReq, TransactionRes} from "./models/transaction";
+import {TxnLogPage, TxnLogReq} from "./txn-history/txnLog";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -38,6 +39,7 @@ export class DfsHttpServiceService {
   getUserUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/get-user-info/';
   getUserBalanceUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/get-balance/';
   transactionUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/txn/doTxn';
+  txnHistoryUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/txn/get-user-txn';
 
   private handleError: HandleError;
 
@@ -47,12 +49,8 @@ export class DfsHttpServiceService {
     this.handleError = httpErrorHandler.createHandleError('HeroesService');
   }
 
-  /** GET heroes from the server */
-  getHeroes(): Observable<LoginInfo[]> {
-    return this.http.get<LoginInfo[]>(this.logUrl)
-      .pipe(
-        catchError(this.handleError('getHeroes', []))
-      );
+  getTxnLogPage(txnLogReq: TxnLogReq): Observable<TxnLogPage> {
+    return this.http.post<TxnLogPage>(this.txnHistoryUrl, txnLogReq, httpOptions);
   }
 
   getUser(phoneNumber: string): Observable<User> {

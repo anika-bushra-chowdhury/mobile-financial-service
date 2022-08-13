@@ -12,6 +12,8 @@ import {CashInComponent} from "./agent/cash-in/cash-in.component";
 import {PToPComponent} from "./customer/p-to-p/p-to-p.component";
 import {CashOutComponent} from "./customer/cash-out/cash-out.component";
 import {RedeemComponent} from "./agent/redeem/redeem.component";
+import {TxnHistoryComponent} from "./shared/txn-history/txn-history.component";
+import {AdminTxnHistoryComponent} from "./admin/admin-txn-history/admin-txn-history.component";
 
 const routes: Routes = [
   {
@@ -33,6 +35,7 @@ const routes: Routes = [
     children: [
       {path: `check-balance`, component: CheckBalanceComponent},
       {path: `b2b`, component: BToBComponent},
+      {path: `user-txn-history`, component: AdminTxnHistoryComponent},
       {path: `user-registration`, component: RegistrationComponent},
       {path: `search-user`, component: SearchUserComponent},
       {path: `user-details`, component: UserDetailsComponent},
@@ -47,7 +50,8 @@ const routes: Routes = [
       {path: `user-details`, component: UserDetailsComponent},
       {path: `p2p`, component: PToPComponent},
       {path: `cash-out`, component: CashOutComponent},
-      {path: `txn-result`, component: TransactionResultComponent}
+      {path: `txn-result`, component: TransactionResultComponent},
+      {path: `txn-history`, component: TxnHistoryComponent}
     ]
   },
   {
@@ -58,6 +62,7 @@ const routes: Routes = [
       {path: `user-details`, component: UserDetailsComponent},
       {path: `cash-in`, component: CashInComponent},
       {path: `redeem`, component: RedeemComponent},
+      {path: `txn-history`, component: TxnHistoryComponent},
       {path: `txn-result`, component: TransactionResultComponent}
     ]
   }

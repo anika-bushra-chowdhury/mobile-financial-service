@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -28,7 +29,16 @@ public class TxnLogDaoImpl implements TxnLogDao {
     }
 
     @Override
-    public Page<TxnLogEntity> getAll(String accNo, Pageable paging) {
-        return txnLogRepository.findAllByAccountNumber(accNo, paging);
+    public Page<TxnLogEntity> getAll(String accNo, Date fromDate, Date toDate, Pageable paging) {
+
+        if (fromDate == null && toDate == null) {
+            return txnLogRepository.findAllByAccountNumber(accNo, paging);
+        } else if (fromDate != null && toDate != null) {
+            return txnLogRepository.findAllByAccountNumberAndApprovalDtGreaterThanEqualAndApprovalDtLessThanEqual(accNo, fromDate, toDate, paging);
+        } else if (fromDate != null) {
+            return txnLogRepository.findAllByAccountNumberAndApprovalDtGreaterThanEqual(accNo, fromDate, paging);
+        } else {
+            return txnLogRepository.findAllByAccountNumberAndApprovalDtLessThanEqual(accNo, toDate, paging);
+        }
     }
 }
