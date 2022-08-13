@@ -13,6 +13,8 @@ import java.util.Map;
 @NoArgsConstructor
 public class TxnCommonResponse {
 
+    private String toAccNo;
+
     private String responseMessage;
 
     private TxnType txnType;

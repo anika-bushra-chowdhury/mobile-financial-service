@@ -1,0 +1,68 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Transaction Successful!</h4>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <span>Transaction Type: {{transactionRes.txnType}}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span *ngIf="transactionRes.txnType != 'Agent E-Money Redemption'">To Account No.: {{transactionRes.toAccNo}}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span>Amount: {{transactionRes.txnAmount}} TK.</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span>Fee: {{transactionRes.fee}} TK.</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span>Commission: {{transactionRes.commission}} TK.</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span *ngIf="transactionRes.txnType != 'B2B to Agent'">Current Balance: {{transactionRes.balance}} TK.</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span>Transaction Id: {{transactionRes.txnId}}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <span>Reference Id: {{transactionRes.reference}}</span>
+              </div>
+            </div>
+
+            <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="toAnotherTxn()">Do Another</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

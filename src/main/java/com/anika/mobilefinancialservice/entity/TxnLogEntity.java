@@ -80,4 +80,7 @@ public class TxnLogEntity extends BaseDomain {
 
     @Column(name = "TXN_STATUS")
     private TxnStatus txnStatus;
+
+    @Column(name = "TXN_REFERENCE")
+    private String reference;
 }

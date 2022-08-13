@@ -7,6 +7,11 @@ import {RegistrationComponent} from "./auth-module/registration/registration.com
 import {SearchUserComponent} from "./admin/search-user/search-user.component";
 import {UserDetailsComponent} from "./shared/user-details/user-details.component";
 import {CheckBalanceComponent} from "./shared/check-balance/check-balance.component";
+import {TransactionResultComponent} from "./shared/transaction-result/transaction-result.component";
+import {CashInComponent} from "./agent/cash-in/cash-in.component";
+import {PToPComponent} from "./customer/p-to-p/p-to-p.component";
+import {CashOutComponent} from "./customer/cash-out/cash-out.component";
+import {RedeemComponent} from "./agent/redeem/redeem.component";
 
 const routes: Routes = [
   {
@@ -31,6 +36,7 @@ const routes: Routes = [
       {path: `user-registration`, component: RegistrationComponent},
       {path: `search-user`, component: SearchUserComponent},
       {path: `user-details`, component: UserDetailsComponent},
+      {path: `txn-result`, component: TransactionResultComponent}
     ]
   },
   {
@@ -38,7 +44,10 @@ const routes: Routes = [
     component: PortalComponent,
     children: [
       {path: `check-balance`, component: CheckBalanceComponent},
-      {path: `user-details`, component: UserDetailsComponent}
+      {path: `user-details`, component: UserDetailsComponent},
+      {path: `p2p`, component: PToPComponent},
+      {path: `cash-out`, component: CashOutComponent},
+      {path: `txn-result`, component: TransactionResultComponent}
     ]
   },
   {
@@ -46,7 +55,10 @@ const routes: Routes = [
     component: PortalComponent,
     children: [
       {path: `check-balance`, component: CheckBalanceComponent},
-      {path: `user-details`, component: UserDetailsComponent}
+      {path: `user-details`, component: UserDetailsComponent},
+      {path: `cash-in`, component: CashInComponent},
+      {path: `redeem`, component: RedeemComponent},
+      {path: `txn-result`, component: TransactionResultComponent}
     ]
   }
 ];

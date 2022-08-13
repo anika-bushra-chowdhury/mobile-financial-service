@@ -10,6 +10,8 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import { UserDetailsComponent } from './user-details/user-details.component';
 import {MatCardModule} from "@angular/material/card";
 import { CheckBalanceComponent } from './check-balance/check-balance.component';
+import { TransactionResultComponent } from './transaction-result/transaction-result.component';
+import {MatDividerModule} from "@angular/material/divider";
 
 
 
@@ -19,7 +21,8 @@ import { CheckBalanceComponent } from './check-balance/check-balance.component';
     NavbarComponent,
     FooterComponent,
     UserDetailsComponent,
-    CheckBalanceComponent
+    CheckBalanceComponent,
+    TransactionResultComponent
   ],
     exports: [
         SidebarComponent,
@@ -27,13 +30,14 @@ import { CheckBalanceComponent } from './check-balance/check-balance.component';
         FooterComponent,
         UserDetailsComponent
     ],
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        RouterModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatCardModule
-    ]
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    RouterModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatDividerModule
+  ]
 })
 export class SharedModule { }

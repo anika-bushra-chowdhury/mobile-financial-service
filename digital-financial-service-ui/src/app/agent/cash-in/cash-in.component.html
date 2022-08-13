@@ -3,25 +3,19 @@
     <div class="row">
       <div class="col-md-8">
         <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">E-Money Creation in Agent Wallet </h4>
-          </div>
-          <div class="card-body">
-            <form [formGroup]="BToBForm">
-              <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field class="example-full-width">
-                    <mat-label>Agent Account No.</mat-label>
-                    <input matInput placeholder="017***" type="text" formControlName="agAccNo" maxlength="11" required>
-                  </mat-form-field>
-                </div>
-              </div>
 
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Cash In to Customer Account</h4>
+          </div>
+
+          <div class="card-body">
+
+            <form [formGroup]="cashInForm">
               <div class="row">
                 <div class="col-md-12">
                   <mat-form-field class="example-full-width">
-                    <mat-label>Bank Transaction Id</mat-label>
-                    <input matInput type="text" formControlName="bankTxnId" maxlength="40" required>
+                    <mat-label>Customer Account No.</mat-label>
+                    <input matInput placeholder="017***" type="text" formControlName="cuAccNo" maxlength="11" required>
                   </mat-form-field>
                 </div>
               </div>
@@ -48,12 +42,15 @@
                 </div>
               </div>
 
-              <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="BToBForm.status === 'INVALID'" (click)="confirmB2B()">Confirm</button>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="cashInForm.status === 'INVALID'" (click)="confirmCashIn()">Confirm</button>
               <div class="clearfix"></div>
             </form>
+
           </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
+

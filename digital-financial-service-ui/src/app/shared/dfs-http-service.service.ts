@@ -10,6 +10,7 @@ import {LoginRes} from "./models/login";
 import {HttpErrorHandler, HandleError} from '../http-error-handler.service';
 import {User} from "./models/user";
 import {BalanceRes} from "./models/balanceRes";
+import {TransactionReq, TransactionRes} from "./models/transaction";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -36,6 +37,7 @@ export class DfsHttpServiceService {
   regUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/register';
   getUserUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/get-user-info/';
   getUserBalanceUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/user/get-balance/';
+  transactionUrl = 'http://localhost:8085/mobile-financial-service-1.0/api/v1/txn/doTxn';
 
   private handleError: HandleError;
 
@@ -95,6 +97,10 @@ export class DfsHttpServiceService {
   /** POST: try to log in */
   login(loginInfo: LoginInfo): Observable<LoginRes> {
     return this.http.post<LoginRes>(this.logUrl, loginInfo, httpOptions);
+  }
+
+  transaction(transactionReq: TransactionReq): Observable<TransactionRes> {
+    return this.http.post<TransactionRes>(this.transactionUrl, transactionReq, httpOptions);
   }
 
   /** DELETE: delete the hero from the server */

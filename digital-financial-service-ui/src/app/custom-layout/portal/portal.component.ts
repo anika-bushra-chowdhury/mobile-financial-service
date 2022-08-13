@@ -41,6 +41,8 @@ export class PortalComponent implements OnInit {
   cuMenuItems: RouteInfo[] = [
     {path: '/customer/check-balance', title: 'Check Balance', icon: 'dashboard', class: ''},
     {path: '/customer/user-details', title: 'User Profile', icon: 'person', class: ''},
+    {path: '/customer/p2p', title: 'P2P', icon: 'dashboard', class: ''},
+    {path: '/customer/cash-out', title: 'Cash Out', icon: 'dashboard', class: ''},
     {path: '/customer/transaction-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];
@@ -48,6 +50,8 @@ export class PortalComponent implements OnInit {
   agMenuItems: RouteInfo[] = [
     {path: '/agent/check-balance', title: 'Check Balance', icon: 'dashboard', class: ''},
     {path: '/agent/user-details', title: 'User Profile', icon: 'person', class: ''},
+    {path: '/agent/cash-in', title: 'Cash In', icon: 'dashboard', class: ''},
+    {path: '/agent/redeem', title: 'E-Money Redeem', icon: 'dashboard', class: ''},
     {path: '/agent/transaction-history', title: 'Transaction History', icon: 'content_paste', class: ''},
     {path: '/login', title: 'Log Out', icon: 'dashboard', class: ''},
   ];

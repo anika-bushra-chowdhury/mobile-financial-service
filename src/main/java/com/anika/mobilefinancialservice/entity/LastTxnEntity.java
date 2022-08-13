@@ -67,4 +67,7 @@ public class LastTxnEntity extends BaseDomain {
 
     @Column(name = "NR_NUMBER")
     private String nrNumber;
+
+    @Column(name = "TXN_REFERENCE")
+    private String reference;
 }

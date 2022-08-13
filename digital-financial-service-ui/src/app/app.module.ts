@@ -9,6 +9,8 @@ import {CustomLayoutModule} from "./custom-layout/custom-layout.module";
 import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared/shared.module";
 import {AdminModule} from "./admin/admin.module";
+import {AgentModule} from "./agent/agent.module";
+import {CustomerModule} from "./customer/customer.module";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import {AdminModule} from "./admin/admin.module";
     CustomLayoutModule,
     HttpClientModule,
     SharedModule,
-    AdminModule
+    AdminModule,
+    AgentModule,
+    CustomerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

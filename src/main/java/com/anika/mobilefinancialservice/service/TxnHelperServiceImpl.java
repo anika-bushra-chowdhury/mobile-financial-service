@@ -142,6 +142,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
         lastTxn.setTxnType(request.getTxnType());
         lastTxn.setTxnCategory(TxnCategory.ORIGINAL);
         lastTxn.setAmount(request.getTxnAmount());
+        lastTxn.setReference(request.getReference());
     }
 
 
@@ -160,6 +161,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 .newBalance(lastTxn.getBalance())
                 .txnId(lastTxn.getTxnId())
                 .nrNumber(lastTxn.getNrNumber())
+                .reference(lastTxn.getReference())
                 .build();
 
         txnLogDao.save(txnLog);
@@ -200,6 +202,10 @@ public class TxnHelperServiceImpl implements TxnHelperService {
             }
         }
 
+        if (commission.compareTo(BigDecimal.ZERO) > 0 && txnType == TxnType.CASH_OUT) {
+            commission = BigDecimal.ZERO;
+        }
+
         return TxnCommonResponse.builder()
                 .txnType(lastTxn.getTxnType())
                 .txnAmount(lastTxn.getAmount())
@@ -207,6 +213,7 @@ public class TxnHelperServiceImpl implements TxnHelperService {
                 .commission(commission)
                 .txnId(lastTxn.getTxnId())
                 .balance(lastTxn.getBalance())
+                .reference(lastTxn.getReference())
                 .build();
     }
 }

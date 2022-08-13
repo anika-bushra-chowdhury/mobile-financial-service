@@ -52,11 +52,14 @@ public class TxnServiceImpl implements TxnService {
         BigDecimal totalAmount = txnRequest.getTxnAmount().add(fee);
         List<LastTxnEntity> orgTxnEntities = txnHelperService.generateOrgTxn(txnRequest, totalAmount);
 
-        TxnCommonResponse txnCommonResponse = txnHelperService.prepareTxnResponse(orgTxnEntities, fee, commission, txnRequest.getTxnType());
 
         if (txnRequest.getTxnType() != TxnType.B2B_AG && txnRequest.getTxnType() != TxnType.REDEEM_AG) {
             txnHelperService.generateFeeCommTxnLog(orgTxnEntities, txnRequest, fee, commission);
         }
+
+        TxnCommonResponse txnCommonResponse = txnHelperService.prepareTxnResponse(orgTxnEntities, fee, commission, txnRequest.getTxnType());
+        txnCommonResponse.setToAccNo(txnRequest.getToAccNo());
+        txnCommonResponse.setTxnAmount(txnRequest.getTxnAmount());
 
         return txnCommonResponse;
     }
