@@ -2,6 +2,8 @@ package com.anika.mobilefinancialservice.dao;
 
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.repositories.TxnLogRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,6 +24,11 @@ public class TxnLogDaoImpl implements TxnLogDao {
 
     @Override
     public List<TxnLogEntity> save(List<TxnLogEntity> entities) {
-        return txnLogRepository.saveAll(entities);
+        return (List<TxnLogEntity>) txnLogRepository.saveAll(entities);
+    }
+
+    @Override
+    public Page<TxnLogEntity> getAll(String accNo, Pageable paging) {
+        return txnLogRepository.findAllByAccountNumber(accNo, paging);
     }
 }

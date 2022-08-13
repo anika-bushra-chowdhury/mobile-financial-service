@@ -5,6 +5,7 @@ import com.anika.mobilefinancialservice.dto.TxnCommonResponse;
 import com.anika.mobilefinancialservice.entity.TxnLogEntity;
 import com.anika.mobilefinancialservice.service.TxnService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,11 +33,10 @@ public class TxnController {
         return response;
     }
 
-    @GetMapping(value = "/get-user-txn/{phnNO}")
-    public List<TxnLogEntity> getUserTransactions(@PathVariable String phnNO) {
-
-        log.info("Txn history inquiry request by: {}", phnNO);
-
-        return txnService.getTxnHistory(phnNO);
+    @GetMapping(value = "/get-user-txn/{accNo}")
+    public Page<TxnLogEntity> getUserTransactions(@PathVariable String accNo) {
+//                                                  @PathVariable String pageNo,
+//                                                  @PathVariable String pageSize) {
+        return txnService.getTxnHistory(accNo, 1, 10);
     }
 }
