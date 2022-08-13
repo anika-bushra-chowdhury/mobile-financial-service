@@ -14,6 +14,7 @@ import { AdminTxnHistoryComponent } from './admin-txn-history/admin-txn-history.
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     MatPaginatorModule,
     MatTableModule,
     MatDatepickerModule,
+    MatDividerModule,
   ]
 })
 export class AdminModule {

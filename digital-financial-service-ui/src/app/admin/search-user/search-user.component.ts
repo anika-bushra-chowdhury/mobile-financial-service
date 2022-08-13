@@ -22,6 +22,8 @@ export class SearchUserComponent implements OnInit {
     profileType: ''
   };
 
+  dataFound : boolean = false;
+
   searchUserForm = this.fb.group({
     phoneNumber: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11), Validators.pattern("(01[3-9]\\d{8})$")])]
   });
@@ -46,7 +48,30 @@ export class SearchUserComponent implements OnInit {
       profileType: ``
     }
 
-    this.dfsHttpServiceService.getUser(this.user.phoneNumber).subscribe(res => (this.user = res));
+    this.dfsHttpServiceService.getUser(this.user.phoneNumber)
+      .subscribe(res => {
+        this.user = res;
+
+        this.user.dob = new Date(res.dob).toString().substring(4, 15);
+        this.user.userType = this.getUserTypeDisplayName(res.userType);
+
+        this.dataFound = true;
+      });
+  }
+
+  getUserTypeDisplayName = function (userTypeEnum: string): string | any {
+
+    switch (userTypeEnum) {
+      case `SYSTEM`: {
+        return `Admin`
+      }
+      case `CUSTOMER`: {
+        return `Customer`
+      }
+      case `AGENT`: {
+        return `Agent`
+      }
+    }
   }
 
 }

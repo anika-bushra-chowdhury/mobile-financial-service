@@ -29,7 +29,27 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.phoneNumber = this.dataContextService.phoneNumber;
-    this.dfsHttpServiceService.getUser(this.phoneNumber).subscribe(res => (this.user = res));
+    this.dfsHttpServiceService.getUser(this.phoneNumber)
+      .subscribe(res => {
+        this.user = res;
+        this.user.dob = new Date(res.dob).toString().substring(4, 15);
+        this.user.userType = this.getUserTypeDisplayName(res.userType);
+      });
+  }
+
+  getUserTypeDisplayName = function (userTypeEnum: string): string | any {
+
+    switch (userTypeEnum) {
+      case `SYSTEM`: {
+        return `Admin`
+      }
+      case `CUSTOMER`: {
+        return `Customer`
+      }
+      case `AGENT`: {
+        return `Agent`
+      }
+    }
   }
 
 }

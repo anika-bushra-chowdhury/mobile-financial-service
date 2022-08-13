@@ -1,29 +1,42 @@
-<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
 
-  <mat-card class="box">
-    <mat-card-content>
-      <div>Account No: {{user.phoneNumber}}</div>
-    </mat-card-content>
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">User Profile</h4>
+          </div>
 
-    <mat-card-content>
-      <div>Name: {{user.userName}}</div>
-    </mat-card-content>
+          <div class="card-body">
 
-    <mat-card-content>
-      <div>User Type: {{user.userType}}</div>
-    </mat-card-content>
+            <div>Account No: {{user.phoneNumber}}</div>
 
-    <mat-card-content>
-      <div>NID: {{user.nid}}</div>
-    </mat-card-content>
+            <mat-divider></mat-divider>
 
-    <mat-card-content>
-      <div>Date of Birth: {{user.dob}}</div>
-    </mat-card-content>
+            <div>Name: {{user.userName}}</div>
 
-    <mat-card-content>
-      <div>Address: {{user.presAddress}}</div>
-    </mat-card-content>
-  </mat-card>
+            <mat-divider></mat-divider>
 
+            <div>User Type: {{user.userType}}</div>
+
+            <mat-divider></mat-divider>
+
+            <div>NID: {{user.nid}}</div>
+
+            <mat-divider></mat-divider>
+
+            <div>Date of Birth: {{user.dob}}</div>
+
+            <mat-divider></mat-divider>
+
+            <div>Address: {{user.presAddress}}</div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
