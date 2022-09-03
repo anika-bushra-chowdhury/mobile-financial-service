@@ -47,24 +47,25 @@ export class LoginComponent implements OnInit {
       // console.log(loginInfo);
 
       this.dfsHttpServiceService.login(loginInfo)
-        .subscribe(res => (this.loginRes = res));
+        .subscribe(res => {
+          this.loginRes = res;
+          console.log(this.loginRes);
 
-      console.log(this.loginRes);
+          this.errorMessage = this.loginRes.errorMessage;
 
-      this.errorMessage = this.loginRes.errorMessage;
+          if (this.errorMessage === `SUCCESS`) {
+            let routPath: string = ``;
+            if (this.loginRes.userType === 'CUSTOMER') {
+              routPath = `customer`;
+            } else if (this.loginRes.userType === 'AGENT') {
+              routPath = `agent`;
+            } else if (this.loginRes.userType === 'SYSTEM') {
+              routPath = `admin`;
+            }
 
-      if (this.errorMessage === `SUCCESS`) {
-        let routPath: string = ``;
-        if (this.loginRes.userType === 'CUSTOMER') {
-          routPath = `customer`;
-        } else if (this.loginRes.userType === 'AGENT') {
-          routPath = `agent`;
-        } else if (this.loginRes.userType === 'SYSTEM') {
-          routPath = `admin`;
-        }
-
-        this.router.navigate([routPath], {state: {data: this.loginRes}})
-      }
+            this.router.navigate([routPath], {state: {data: this.loginRes}})
+          }
+        });
     } else {
     }
   }
